@@ -1,6 +1,9 @@
+using Tasks.Application.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPresentation();
+builder.Services.AddApplication();
 
 var app = builder.Build();
 

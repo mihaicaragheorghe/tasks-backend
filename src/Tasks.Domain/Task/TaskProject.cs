@@ -36,9 +36,6 @@ public class TaskProject
     public static TaskProject Create(
         string name, 
         string color, 
-        bool isArchived, 
-        bool isFavorite, 
-        bool isDeleted,
         List<TaskSection>? sections = null)
     {
         return new TaskProject(
@@ -46,9 +43,9 @@ public class TaskProject
             name, 
             color, 
             0,
-            isArchived, 
-            isFavorite, 
-            isDeleted,
+            false, 
+            false, 
+            false,
             sections ?? new List<TaskSection>());
     }
 }
