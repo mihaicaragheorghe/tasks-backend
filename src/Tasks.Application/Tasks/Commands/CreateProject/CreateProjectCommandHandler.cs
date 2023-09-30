@@ -5,7 +5,7 @@ using Tasks.Domain;
 
 namespace Tasks.Application.Tasks;
 
-public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, TaskProject>
+public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, Project>
 {
     private readonly ITaskProjectRepository _taskProjectRepository;
 
@@ -14,9 +14,9 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
         _taskProjectRepository = taskProjectRepository;
     }
 
-    public async Task<TaskProject> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
+    public async Task<Project> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
     {
-        var project = TaskProject.Create(request.Name, request.Color);
+        var project = Project.Create(request.Name, request.Color);
 
         bool success = await _taskProjectRepository.AddAsync(project, cancellationToken) > 0;
 

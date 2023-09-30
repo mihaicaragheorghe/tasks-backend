@@ -1,8 +1,9 @@
 namespace Tasks.Domain;
 
-public class TaskProject
+public class Project
 {
-    private readonly List<TaskSection> _sections = new();
+    private readonly List<Section> _sections = new();
+    private readonly List<TaskEntity> _tasks = new();
 
     public Guid Id { get; private set; }
     public string Name { get; private set; }
@@ -11,9 +12,10 @@ public class TaskProject
     public bool IsArchived { get; private set; }
     public bool IsFavorite { get; private set; }
     public bool IsDeleted { get; private set; }
-    public IReadOnlyList<TaskSection> Sections => _sections.AsReadOnly();
+    public IReadOnlyCollection<Section> Sections => _sections.AsReadOnly();
+    public IReadOnlyCollection<TaskEntity> Tasks => _tasks.AsReadOnly();
 
-    public TaskProject(
+    public Project(
         Guid id, 
         string name, 
         string color, 
@@ -21,7 +23,8 @@ public class TaskProject
         bool isArchived, 
         bool isFavorite, 
         bool isDeleted,
-        List<TaskSection> sections)
+        List<Section> sections,
+        List<TaskEntity> tasks)
     {
         Id = id;
         Name = name;
@@ -31,14 +34,16 @@ public class TaskProject
         IsFavorite = isFavorite;
         IsDeleted = isDeleted;
         _sections = sections;
+        _tasks = tasks;
     }
 
-    public static TaskProject Create(
+    public static Project Create(
         string name, 
         string color, 
-        List<TaskSection>? sections = null)
+        List<Section>? sections = null,
+        List<TaskEntity>? tasks = null)
     {
-        return new TaskProject(
+        return new Project(
             Guid.NewGuid(), 
             name, 
             color, 
@@ -46,6 +51,7 @@ public class TaskProject
             false, 
             false, 
             false,
-            sections ?? new List<TaskSection>());
+            sections ?? new List<Section>(),
+            tasks ?? new List<TaskEntity>());
     }
 }

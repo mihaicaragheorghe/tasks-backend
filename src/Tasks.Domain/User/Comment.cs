@@ -1,31 +1,31 @@
 namespace Tasks.Domain;
 
-public class UserComment
+public class Comment
 {
     public Guid Id { get; private set; }
-    public Guid TaskItemId { get; private set; }
+    public Guid TaskId { get; private set; }
     public string Content { get; private set; }
     public DateTime CreatedAtUtc { get; private set; }
 
-    public UserComment(
+    public Comment(
         Guid id,
-        Guid taskItemId,
+        Guid taskId,
         string content,
         DateTime createdAt)
     {
         Id = id;
-        TaskItemId = taskItemId;
+        TaskId = taskId;
         Content = content;
         CreatedAtUtc = createdAt;
     }
     
-    public static UserComment Create(
-        Guid taskItemId,
+    public static Comment Create(
+        Guid taskId,
         string content)
     {
-        return new UserComment(
+        return new Comment(
             Guid.NewGuid(),
-            taskItemId,
+            taskId,
             content,
             DateTime.UtcNow);
     }

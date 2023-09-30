@@ -1,15 +1,15 @@
 namespace Tasks.Domain;
 
-public class TaskItem
+public class TaskEntity
 {
-    private readonly List<TaskTag> _tags = new List<TaskTag>();
+    private readonly List<Tag> _tags = new List<Tag>();
     private readonly List<Subtask> _subtasks = new List<Subtask>();
-    private readonly List<UserComment> _comments = new List<UserComment>();
+    private readonly List<Comment> _comments = new List<Comment>();
 
     public Guid Id { get; private set; }
     public Guid CreatedByUserId { get; private set; }
     public Guid AssignedToUserId { get; private set; }
-    public Guid SectionId { get; private set; }
+    public Guid? SectionId { get; private set; }
     public string Title { get; private set; }
     public string? Description { get; private set; }
     public TaskPriority Priority { get; private set; }
@@ -18,15 +18,15 @@ public class TaskItem
     public DateTime? CompletedAtUtc { get; private set; }
     public DateTime? DueAtUtc { get; private set; }
     public bool IsDeleted { get; private set; }
-    public IReadOnlyCollection<TaskTag> Tags => _tags.AsReadOnly();
+    public IReadOnlyCollection<Tag> Tags => _tags.AsReadOnly();
     public IReadOnlyCollection<Subtask> Subtasks => _subtasks.AsReadOnly();
-    public IReadOnlyCollection<UserComment> Comments => _comments.AsReadOnly();
+    public IReadOnlyCollection<Comment> Comments => _comments.AsReadOnly();
 
-    public TaskItem(
+    public TaskEntity(
         Guid id,
         Guid createdBy,
         Guid assignedTo,
-        Guid sectionId,
+        Guid? sectionId,
         string title,
         string? description,
         TaskPriority priority,
@@ -35,9 +35,9 @@ public class TaskItem
         DateTime? completedAt,
         DateTime? dueAt,
         bool isDeleted,
-        List<TaskTag> tags,
+        List<Tag> tags,
         List<Subtask> subtasks,
-        List<UserComment> comments)
+        List<Comment> comments)
     {
         Id = id;
         CreatedByUserId = createdBy;
@@ -56,19 +56,19 @@ public class TaskItem
         _comments = comments;
     }
 
-    public static TaskItem Create(
+    public static TaskEntity Create(
         Guid createdBy,
         Guid assignedTo,
-        Guid sectionId,
+        Guid? sectionId,
         string title,
         string? description,
         TaskPriority priority,
         DateTime? dueAt,
-        List<TaskTag>? tags = null,
+        List<Tag>? tags = null,
         List<Subtask>? subtasks = null,
-        List<UserComment>? comments = null)
+        List<Comment>? comments = null)
     {
-        return new TaskItem(
+        return new TaskEntity(
             Guid.NewGuid(),
             createdBy,
             assignedTo,
@@ -81,8 +81,8 @@ public class TaskItem
             null,
             dueAt,
             false,
-            tags ?? new List<TaskTag>(),
+            tags ?? new List<Tag>(),
             subtasks ?? new List<Subtask>(),
-            comments ?? new List<UserComment>());
+            comments ?? new List<Comment>());
     }
 }

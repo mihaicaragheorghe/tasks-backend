@@ -26,8 +26,8 @@ public class ValidationBehavior<TRequest, TResponse>
         );
 
         var errors = validationResults
-            .SelectMany(r => r.Errors
-            ).Where(f => f != null)
+            .SelectMany(r => r.Errors)
+            .Where(f => f != null)
             .ToList();
 
         if (errors.Any())

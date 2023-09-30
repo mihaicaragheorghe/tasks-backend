@@ -3,7 +3,7 @@ namespace Tasks.Domain;
 public class Subtask
 {
     public Guid Id { get; private set; }
-    public Guid TaskItemId { get; private set; }
+    public Guid ParentId { get; private set; }
     public string Title { get; private set; }
     public bool IsComplete { get; private set; }
     public DateTime CreatedAtUtc { get; private set; }
@@ -11,14 +11,14 @@ public class Subtask
 
     public Subtask(
         Guid id,
-        Guid taskItemId,
+        Guid parentId,
         string title,
         bool isComplete,
         DateTime createdAt,
         DateTime? completedAt)
     {
         Id = id;
-        TaskItemId = taskItemId;
+        ParentId = parentId;
         Title = title;
         IsComplete = isComplete;
         CreatedAtUtc = createdAt;
@@ -26,12 +26,12 @@ public class Subtask
     }
     
     public static Subtask Create(
-        Guid taskItemId,
+        Guid parentId,
         string title)
     {
         return new Subtask(
             Guid.NewGuid(),
-            taskItemId,
+            parentId,
             title,
             false,
             DateTime.UtcNow,
