@@ -3,11 +3,12 @@ namespace Tasks.Domain;
 public class Subtask
 {
     public Guid Id { get; private set; }
-    public Guid ParentId { get; private set; }
-    public string Title { get; private set; }
+    public string Title { get; private set; } = null!;
     public bool IsComplete { get; private set; }
     public DateTime CreatedAtUtc { get; private set; }
     public DateTime? CompletedAtUtc { get; private set; }
+
+    public Guid ParentId { get; private set; }
 
     public Subtask(
         Guid id,
@@ -37,4 +38,6 @@ public class Subtask
             DateTime.UtcNow,
             null);
     }
+
+    private Subtask() { }
 }

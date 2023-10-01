@@ -1,9 +1,16 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Tasks.Application.Extensions;
+using Tasks.Domain;
+using Tasks.Infrastructure.Extensions;
+using Tasks.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddPresentation();
-builder.Services.AddApplication();
+builder.Services
+    .AddPresentation()
+    .AddInfrastructure(builder.Configuration)
+    .AddApplication();
 
 var app = builder.Build();
 
@@ -20,5 +27,21 @@ app.UseExceptionHandler("/error");
 app.UseAuthorization();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+    var context = services.GetRequiredService<DataContext>();
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    await context.Database.MigrateAsync();
+    await Seed.SeedData(context, userManager);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occured during migration");
+}
 
 app.Run();

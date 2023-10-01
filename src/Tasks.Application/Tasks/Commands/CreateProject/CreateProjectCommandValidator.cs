@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FluentValidation;
 
 namespace Tasks.Application.Tasks;
@@ -13,9 +14,8 @@ public class CreateProjectCommandValidator : AbstractValidator<CreateProjectComm
             .WithMessage("Project name must be between 1 and 50 characters.");
 
         RuleFor(x => x.Color)
-            .NotEmpty()
-            .Matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
+            .Must(x => x == null || Regex.IsMatch(x, "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
             .WithErrorCode("Project.ColorFormat")
-            .WithMessage("Project color must be a valid hex color code.");
+            .WithMessage("Project color must be a valid hex color code or null.");
     }
 }

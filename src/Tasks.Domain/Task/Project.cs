@@ -2,29 +2,32 @@ namespace Tasks.Domain;
 
 public class Project
 {
-    private readonly List<Section> _sections = new();
-    private readonly List<TaskEntity> _tasks = new();
-
     public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public string Color { get; private set; }
+    public string Name { get; private set; } = null!;
+    public string? Color { get; private set; }
     public int Order { get; private set; }
     public bool IsArchived { get; private set; }
     public bool IsFavorite { get; private set; }
     public bool IsDeleted { get; private set; }
-    public IReadOnlyCollection<Section> Sections => _sections.AsReadOnly();
-    public IReadOnlyCollection<TaskEntity> Tasks => _tasks.AsReadOnly();
+
+    public Guid OwnerId { get; private set; }
+    public ICollection<Section> Sections { get; private set; } = new List<Section>();
+    public ICollection<TaskEntity> Tasks { get; private set; } = new List<TaskEntity>();
+    public ICollection<User> Collaborators { get; private set; } = new List<User>();
+
 
     public Project(
-        Guid id, 
+        Guid id,
         string name, 
-        string color, 
+        string? color, 
         int order,
         bool isArchived, 
         bool isFavorite, 
         bool isDeleted,
+        Guid ownerId,
         List<Section> sections,
-        List<TaskEntity> tasks)
+        List<TaskEntity> tasks,
+        List<User> collaborators)
     {
         Id = id;
         Name = name;
@@ -33,25 +36,33 @@ public class Project
         IsArchived = isArchived;
         IsFavorite = isFavorite;
         IsDeleted = isDeleted;
-        _sections = sections;
-        _tasks = tasks;
+        OwnerId = ownerId;
+        Sections = sections;
+        Tasks = tasks;
+        Collaborators = collaborators;
     }
 
     public static Project Create(
         string name, 
-        string color, 
+        Guid ownerId,
+        string? color = null,
         List<Section>? sections = null,
-        List<TaskEntity>? tasks = null)
+        List<TaskEntity>? tasks = null,
+        List<User>? collaborators = null)
     {
         return new Project(
-            Guid.NewGuid(), 
+            Guid.NewGuid(),
             name, 
             color, 
             0,
             false, 
             false, 
             false,
+            ownerId,
             sections ?? new List<Section>(),
-            tasks ?? new List<TaskEntity>());
+            tasks ?? new List<TaskEntity>(),
+            collaborators ?? new List<User>());
     }
+
+    private Project() { }
 }

@@ -5,5 +5,5 @@ namespace Tasks.Application.Tasks;
 
 public record CreateProjectCommand(
     string Name,
-    string Color
+    string? Color
 ) : IRequest<Project>;
