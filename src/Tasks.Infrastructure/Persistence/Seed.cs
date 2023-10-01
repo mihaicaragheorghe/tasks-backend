@@ -12,9 +12,9 @@ public class Seed
         {
             var users = new List<User>
             {
-                User.Create("Bob", "bob", "bob@test.com"),
-                User.Create("Tom", "tom", "tom@test.com"),
-                User.Create("Jane", "jane", "jane@test.com"),
+                User.Create("bob", "bob@test.com", "Bob"),
+                User.Create("tom", "tom@test.com", "Tom"),
+                User.Create("jane", "jane@test.com", "Jane")
             };
 
             context.Users.AddRange(users);

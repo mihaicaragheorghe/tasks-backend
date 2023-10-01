@@ -12,9 +12,7 @@ public static class DependencyInjectionRegister
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services
-            .AddPersistence(configuration)
-            .AddIdentity();
+        services.AddPersistence(configuration);
 
         return services;
     }
@@ -27,18 +25,6 @@ public static class DependencyInjectionRegister
         });
 
         services.AddScoped<ITaskProjectRepository, TaskProjectRepository>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddIdentity(this IServiceCollection services)
-    {
-        services.AddIdentityCore<User>(opt => 
-        {
-            opt.Password.RequireNonAlphanumeric = false;
-            opt.User.RequireUniqueEmail = true;
-        })
-        .AddEntityFrameworkStores<DataContext>();
 
         return services;
     }

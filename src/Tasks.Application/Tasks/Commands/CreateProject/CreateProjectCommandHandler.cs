@@ -14,11 +14,9 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
         _taskProjectRepository = taskProjectRepository;
     }
 
-    public async Task<Project> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
+    public async Task<Project> Handle(CreateProjectCommand command, CancellationToken cancellationToken)
     {
-        // todo get current logged in user id
-        var userId = new Guid("7F131BC3-9175-4B1F-B251-DEB3A96DFF0F");
-        var project = Project.Create(request.Name, userId, request.Color);
+        var project = Project.Create(command.Name, command.UserId, command.Color);
 
         bool success = await _taskProjectRepository.AddAsync(project, cancellationToken) > 0;
 
