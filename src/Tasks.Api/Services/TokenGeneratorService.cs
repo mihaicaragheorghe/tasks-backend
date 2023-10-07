@@ -1,18 +1,20 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Tasks.Api.Models;
 using Tasks.Domain;
 
 namespace Tasks.Api.Services;
 
 public class TokenGeneratorService
 {
-    private readonly IConfiguration _configuration;
+    private readonly JwtOptions _options;
 
-    public TokenGeneratorService(IConfiguration configuration)
+    public TokenGeneratorService(IOptions<JwtOptions> options)
     {
-        _configuration = configuration;
+        _options = options.Value;
     }
 
     public string Generate(User user)
@@ -24,18 +26,39 @@ public class TokenGeneratorService
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
         };
 
-        var key = _configuration.GetValue<string>("JwtConfig:Secret");
+        if (string.IsNullOrWhiteSpace(_options.AccessTokenSecret))
+            throw new Exception("Jwt key is missing from appsettings.json");
 
-        if (string.IsNullOrWhiteSpace(key))
-            throw new Exception("JwtConfig:Secret is missing from appsettings.json");
-
-        var creds = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)), SecurityAlgorithms.HmacSha256);
+        var creds = new SigningCredentials(
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.AccessTokenSecret)), 
+            SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
+            issuer: _options.Issuer,
+            audience: _options.Audience,
             claims: claims,
-            expires: DateTime.Now.AddDays(7),
-            signingCredentials: creds
-        );
+            expires: DateTime.Now.AddHours(_options.AccessTokenExpirationHours),
+            signingCredentials: creds);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public string GenerateRefreshToken()
+    {
+        if (string.IsNullOrWhiteSpace(_options.RefreshTokenSecret))
+            throw new Exception("Jwt refresh token key is missing from appsettings.json");
+
+        var creds = new SigningCredentials(
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.RefreshTokenSecret)), 
+            SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            claims: new List<Claim>() 
+            { 
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) 
+            },
+            expires: DateTime.Now.AddHours(_options.RefreshTokenExpirationHours),
+            signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }

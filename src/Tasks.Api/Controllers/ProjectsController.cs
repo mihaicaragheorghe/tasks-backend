@@ -35,7 +35,6 @@ public class ProjectsController : ControllerBase
         if (currentUser is null) return Unauthorized();
 
         return await _sender.Send(
-            new CreateProjectCommand(currentUser.Id, request.Name, request.Color)
-        );
+            new CreateProjectCommand(currentUser.Id, request.Name, request.Color));
     }
 }

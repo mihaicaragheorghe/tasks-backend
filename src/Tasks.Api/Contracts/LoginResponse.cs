@@ -9,9 +9,10 @@ public record LoginResponse(
     string? DisplayName,
     string? Bio,
     string? ProfilePictureUrl,
-    string Token)
+    string AccessToken,
+    string RefreshToken)
 {
-    public LoginResponse(User user, string token)
+    public LoginResponse(User user, string accessToken, string refreshToken)
         : this(
             user.Id,
             user.Email!,
@@ -19,5 +20,6 @@ public record LoginResponse(
             user.DisplayName,
             user.Bio,
             user.ProfilePictureUrl,
-            token) { }
+            accessToken,
+            refreshToken) { }
 }

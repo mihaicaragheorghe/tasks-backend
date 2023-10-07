@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Tasks.Api.Models;
 using Tasks.Api.Services;
 using Tasks.Domain;
 using Tasks.Infrastructure.Persistence;
@@ -29,10 +30,12 @@ public static class DependencyInjection
         })
         .AddEntityFrameworkStores<DataContext>();
 
-        var key = configuration.GetValue<string>("JwtConfig:Secret");
+        services.Configure<JwtOptions>(opts => configuration.GetSection("JwtConfig").Bind(opts));
 
-        if (string.IsNullOrWhiteSpace(key))
-            throw new Exception("JwtConfig:Secret is missing from appsettings.json");
+        var options = configuration.GetSection("JwtConfig").Get<JwtOptions>();
+
+        if (string.IsNullOrWhiteSpace(options?.AccessTokenSecret))
+            throw new Exception("Jwt secret key is missing from appsettings.json");
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opt => 
@@ -41,13 +44,14 @@ public static class DependencyInjection
                 {
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.AccessTokenSecret)),
                     ValidateAudience = false,
                     ValidateIssuer = false
                 };
             });
 
         services.AddScoped<TokenGeneratorService>();
+        services.AddScoped<RefreshTokenValidator>();
 
         return services;
     }
