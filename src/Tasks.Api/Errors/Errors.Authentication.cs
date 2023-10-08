@@ -14,5 +14,17 @@ public static partial class Errors
             code: "Authentication.FailedToCreateRefreshToken",
             description: "Failed to create a new refresh token."
         );
+        public static Error EmailExists => Error.Conflict(
+            code: "Authentication.EmailExists",
+            description: "Email already exists."
+        );
+        public static Error UsernameExists => Error.Conflict(
+            code: "Authentication.UsernameExists",
+            description: "Username already exists."
+        );
+        public static Error FailedToCreateUser => Error.Failure(
+            code: "Authentication.FailedToCreateUser",
+            description: "Failed to create user."
+        );
     }
 }

@@ -2,7 +2,7 @@ using Tasks.Domain;
 
 namespace Tasks.Api.Contracts;
 
-public record LoginResponse(
+public record UserDto(
     Guid Id,
     string Email,
     string Username,
@@ -12,7 +12,7 @@ public record LoginResponse(
     string AccessToken,
     string RefreshToken)
 {
-    public LoginResponse(User user, string accessToken, string refreshToken)
+    public UserDto(User user, string accessToken, string refreshToken)
         : this(
             user.Id,
             user.Email!,
