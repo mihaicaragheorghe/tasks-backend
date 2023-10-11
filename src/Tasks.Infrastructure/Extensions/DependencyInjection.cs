@@ -25,6 +25,7 @@ public static class DependencyInjectionRegister
         });
 
         services.AddScoped<ITaskProjectRepository, TaskProjectRepository>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
         return services;
     }

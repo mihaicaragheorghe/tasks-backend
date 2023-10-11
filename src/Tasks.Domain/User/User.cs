@@ -7,7 +7,6 @@ public class User : IdentityUser<Guid>
     public string? DisplayName { get; private set; } = null!;
     public string? ProfilePictureUrl { get; private set; }
     public string? Bio { get; private set; }
-    public string? RefreshToken { get; private set; }
 
     public User(
         Guid id,
@@ -15,8 +14,7 @@ public class User : IdentityUser<Guid>
         string email,
         string? displayName,
         string? profilePictureUrl,
-        string? bio,
-        string? refreshToken)
+        string? bio)
     {
         Id = id;
         UserName = username;
@@ -24,7 +22,6 @@ public class User : IdentityUser<Guid>
         DisplayName = displayName;
         ProfilePictureUrl = profilePictureUrl;
         Bio = bio;
-        RefreshToken = refreshToken;
     }
 
     public static User Create(
@@ -32,8 +29,7 @@ public class User : IdentityUser<Guid>
         string email,
         string? displayName = null,
         string? profilePictureUrl = null,
-        string? bio = null,
-        string? refreshToken = null)
+        string? bio = null)
     {
         return new User(
             Guid.NewGuid(),
@@ -41,8 +37,7 @@ public class User : IdentityUser<Guid>
             email,
             displayName,
             profilePictureUrl,
-            bio,
-            refreshToken);
+            bio);
     }
 
     public User Update(
@@ -50,15 +45,13 @@ public class User : IdentityUser<Guid>
         string? email = null,
         string? displayName = null,
         string? profilePictureUrl = null,
-        string? bio = null,
-        string? refreshToken = null)
+        string? bio = null)
     {
         UserName = username ?? UserName;
         Email = email ?? Email;
         DisplayName = displayName ?? DisplayName;
         ProfilePictureUrl = profilePictureUrl ?? ProfilePictureUrl;
         Bio = bio ?? Bio;
-        RefreshToken = refreshToken ?? RefreshToken;
 
         return this;
     }

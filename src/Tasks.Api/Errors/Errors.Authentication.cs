@@ -26,5 +26,21 @@ public static partial class Errors
             code: "Authentication.FailedToCreateUser",
             description: "Failed to create user."
         );
+        public static Error Unauthorized => Error.NotAuthorized(
+            code: "Authentication.Unauthorized",
+            description: "Unauthorized."
+        );
+        public static Error InvalidRefreshToken => Error.NotAuthorized(
+            code: "Authentication.InvalidRefreshToken",
+            description: "Invalid refresh token."
+        );
+        public static Error RefreshTokenNotFound => Error.NotFound(
+            code: "Authentication.RefreshTokenNotFound",
+            description: "Refresh token not found."
+        );
+        public static Error UserNotFound => Error.NotFound(
+            code: "Authentication.UserNotFound",
+            description: "User not found."
+        );
     }
 }
