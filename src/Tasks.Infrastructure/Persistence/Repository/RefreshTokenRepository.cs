@@ -29,15 +29,8 @@ public class RefreshTokenRepository : IRefreshTokenRepository
         return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<int> DeleteAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<int> DeleteAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default)
     {
-        var refreshToken = await GetAsync(userId, cancellationToken);
-        
-        if (refreshToken is null)
-        {
-            return 0;
-        }
-
         _context.RefreshTokens.Remove(refreshToken);
         return await _context.SaveChangesAsync(cancellationToken);
     }
