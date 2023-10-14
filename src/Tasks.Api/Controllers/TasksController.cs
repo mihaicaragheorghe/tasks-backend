@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Tasks.Api.Contracts;
 using Tasks.Application.Tasks.Commands;
+using Tasks.Application.Tasks.Queries;
 using Tasks.Domain;
 
 namespace Tasks.Api.Controllers;
@@ -37,5 +38,27 @@ public class TasksController : BaseController
                 request.DueAtUtc,
                 request.TagsIds ?? new List<Guid>(),
                 request.SubtasksTitles ?? new List<string>()))));
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<TaskDto>>> GetTasks()
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user is null) return Unauthorized();
+
+        return Ok((await _sender.Send(new GetTasksQuery(user.Id)))
+            .Select(task => new TaskDto(task))
+            .ToList());
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TaskDto>> GetTask(Guid id)
+    {
+        var task = await _sender.Send(new GetTaskByIdQuery(id));
+
+        if (task is null) return NotFound();
+
+        return new TaskDto(task);
     }
 }

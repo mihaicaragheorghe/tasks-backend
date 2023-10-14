@@ -25,15 +25,18 @@ public class ProjectRepository : IProjectRepository
         return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Project>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Project>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        return await _context.Projects.ToListAsync(cancellationToken);
+        return await _context.Projects
+            .Where(project => project.OwnerId == userId)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<Project?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Projects.FindAsync(id);
-    }
+        return await _context.Projects
+            .FirstOrDefaultAsync(project => project.Id == id, cancellationToken);
+    } 
 
     public async Task<int> UpdateAsync(Project project, CancellationToken cancellationToken = default)
     {

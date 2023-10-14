@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Tasks.Api.Contracts;
 using Tasks.Application.Tasks.Commands;
+using Tasks.Application.Tasks.Queries;
 using Tasks.Domain;
 
 namespace Tasks.Api.Controllers;
@@ -28,5 +29,27 @@ public class ProjectsController : BaseController
 
         return new ProjectDto(
             await _sender.Send(new CreateProjectCommand(currentUser.Id, request.Name, request.Color)));
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetProjects()
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser is null) return Unauthorized();
+
+        return (await _sender.Send(new GetProjectsQuery(currentUser.Id)))
+            .Select(project => new ProjectDto(project))
+            .ToList();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ProjectDto>> GetProject(Guid id)
+    {
+        var project = await _sender.Send(new GetProjectByIdQuery(id));
+
+        if (project is null) return NotFound();
+
+        return new ProjectDto(project);
     }
 }

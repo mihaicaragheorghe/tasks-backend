@@ -34,7 +34,8 @@ public class SectionRepository : ISectionRepository
 
     public async Task<Section?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Sections.FindAsync(id, cancellationToken);
+        return await _context.Sections
+            .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
     }
 
     public async Task<int> UpdateAsync(Section section, CancellationToken cancellationToken = default)
