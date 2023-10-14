@@ -1,12 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Tasks.Api.Contracts;
 using Tasks.Api.Services;
-using Tasks.Application.Common.Models;
-using Tasks.Application.Common.Repository;
-using Tasks.Application.Core;
-using AppUser = Tasks.Domain.User;
 
 namespace Tasks.Api.Controllers;
 
@@ -23,21 +18,21 @@ public class AccountController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("register")]
-    public async Task<ActionResult<UserDto>> Register(RegisterRequest request)
+    public async Task<ActionResult<UserIdentityDto>> Register(RegisterRequest request)
     {
         return await _authenticationService.Register(request);
     }
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<ActionResult<UserDto>> Login(LoginRequest request)
+    public async Task<ActionResult<UserIdentityDto>> Login(LoginRequest request)
     {
         return await _authenticationService.Login(request);
     }
 
     [Authorize]
     [HttpPost("refresh-token")]
-    public async Task<ActionResult<UserDto>> RefreshToken(RefreshTokenRequest request)
+    public async Task<ActionResult<UserIdentityDto>> RefreshToken(RefreshTokenRequest request)
     {
         return await _authenticationService.RefreshToken(request);
     }

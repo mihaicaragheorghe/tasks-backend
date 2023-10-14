@@ -1,6 +1,6 @@
 using Tasks.Application.Core;
 
-namespace Tasks.Domain;
+namespace Tasks.Application.Common.Errors;
 
 public static partial class Errors
 {

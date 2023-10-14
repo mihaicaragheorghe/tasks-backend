@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using FluentValidation;
 
-namespace Tasks.Application.Tasks;
+namespace Tasks.Application.Tasks.Commands;
 
 public class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
 {

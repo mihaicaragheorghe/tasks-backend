@@ -1,4 +1,4 @@
-namespace Tasks.Application.Tasks;
+namespace Tasks.Api.Contracts;
 
 public record CreateProjectRequest(
     string Name,

@@ -18,6 +18,7 @@ public class DataContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<Section> Sections { get; set; } = null!;
     public DbSet<TaskEntity> Tasks { get; set; } = null!;
     public DbSet<Subtask> Subtasks { get; set; } = null!;
+    public DbSet<Tag> Tags { get; set; } = null!;
     public DbSet<Comment> Comments { get; set; } = null!;
     public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 

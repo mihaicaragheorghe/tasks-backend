@@ -32,15 +32,15 @@ public class AuthenticationService
         _refreshTokenRepository = refreshTokenRepository;
     }
 
-    public async Task<UserDto> Register(RegisterRequest request)
+    public async Task<UserIdentityDto> Register(RegisterRequest request)
     {
         if (await _userManager.FindByEmailAsync(request.Email) is not null)
         {
-            throw new AppException(Errors.Authentication.EmailExists);
+            throw new ServiceException(Errors.Authentication.EmailExists);
         }
         if (await _userManager.FindByNameAsync(request.Username) is not null)
         {
-            throw new AppException(Errors.Authentication.UsernameExists);
+            throw new ServiceException(Errors.Authentication.UsernameExists);
         }
 
         var user = User.Create(
@@ -55,7 +55,7 @@ public class AuthenticationService
 
         if (!result.Succeeded)
         {
-            throw new AppException(Errors.Authentication.FailedToCreateUser);
+            throw new ServiceException(Errors.Authentication.FailedToCreateUser);
         }
 
         if (await _refreshTokenRepository.AddAsync(new RefreshToken(user.Id, refreshToken)) <= 0)
@@ -63,17 +63,17 @@ public class AuthenticationService
             _logger.LogError("Failed to create refresh token for user {Username}", user.UserName);
         }
 
-        return new UserDto(user, accessToken, refreshToken);
+        return new UserIdentityDto(user, accessToken, refreshToken);
     }
 
-    public async Task<UserDto> Login(LoginRequest request)
+    public async Task<UserIdentityDto> Login(LoginRequest request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email) 
-            ?? throw new AppException(Errors.Authentication.InvalidCredentials);
+            ?? throw new ServiceException(Errors.Authentication.InvalidCredentials);
 
         if (!await _userManager.CheckPasswordAsync(user, request.Password))
         {
-            throw new AppException(Errors.Authentication.InvalidCredentials);
+            throw new ServiceException(Errors.Authentication.InvalidCredentials);
         }
 
         var accessToken = _tokenGeneratorService.Generate(user);
@@ -94,25 +94,25 @@ public class AuthenticationService
                 _logger.LogError("Failed to update refresh token for user {Username}", user.UserName);
         }
 
-        return new UserDto(user, accessToken, refreshToken.Token);
+        return new UserIdentityDto(user, accessToken, refreshToken.Token);
     }
 
-    public async Task<UserDto> RefreshToken(RefreshTokenRequest request)
+    public async Task<UserIdentityDto> RefreshToken(RefreshTokenRequest request)
     {
         var currentUser = _httpContextAccessor.HttpContext?.User
-            ?? throw new AppException(Errors.Authentication.Unauthorized);
+            ?? throw new ServiceException(Errors.Authentication.Unauthorized);
 
         var userIdentity = await _userManager.GetUserAsync(currentUser)
-            ?? throw new AppException(Errors.Authentication.Unauthorized);
+            ?? throw new ServiceException(Errors.Authentication.Unauthorized);
         
         var refreshToken = await _refreshTokenRepository.GetAsync(userIdentity.Id)
-            ?? throw new AppException(Errors.Authentication.RefreshTokenNotFound);
+            ?? throw new ServiceException(Errors.Authentication.RefreshTokenNotFound);
 
         if (refreshToken?.Token != request.RefreshToken) 
-            throw new AppException(Errors.Authentication.InvalidRefreshToken);
+            throw new ServiceException(Errors.Authentication.InvalidRefreshToken);
 
         if (!_refreshTokenValidator.Validate(request.RefreshToken))
-            throw new AppException(Errors.Authentication.InvalidRefreshToken);
+            throw new ServiceException(Errors.Authentication.InvalidRefreshToken);
 
         var accessToken = _tokenGeneratorService.Generate(userIdentity);
         refreshToken.Token = _tokenGeneratorService.GenerateRefreshToken();
@@ -121,22 +121,22 @@ public class AuthenticationService
 
         if (!success)
         {
-            throw new AppException(Errors.Authentication.FailedToCreateRefreshToken);
+            throw new ServiceException(Errors.Authentication.FailedToCreateRefreshToken);
         }
 
-        return new UserDto(userIdentity, accessToken, refreshToken.Token);
+        return new UserIdentityDto(userIdentity, accessToken, refreshToken.Token);
     }
 
     public async Task Logout()
     {
         var currentUser = _httpContextAccessor.HttpContext?.User
-            ?? throw new AppException(Errors.Authentication.Unauthorized);
+            ?? throw new ServiceException(Errors.Authentication.Unauthorized);
 
         var userIdentity = await _userManager.GetUserAsync(currentUser)
-            ?? throw new AppException(Errors.Authentication.UserNotFound);
+            ?? throw new ServiceException(Errors.Authentication.UserNotFound);
 
         var token = await _refreshTokenRepository.GetAsync(userIdentity.Id)
-            ?? throw new AppException(Errors.Authentication.RefreshTokenNotFound);
+            ?? throw new ServiceException(Errors.Authentication.RefreshTokenNotFound);
 
         if (await _refreshTokenRepository.DeleteAsync(token) <= 0)
             _logger.LogError("Failed to delete refresh token for user {Username}", userIdentity.UserName);

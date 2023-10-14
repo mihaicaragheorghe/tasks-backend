@@ -18,7 +18,7 @@ public class ErrorController : ControllerBase
 
         return exception switch
         {
-            AppException appException => new ErrorResponse(appException),
+            ServiceException appException => new ErrorResponse(appException),
             ValidationException validationException => new ErrorResponse(validationException),
             _ => ErrorResponse.InternalServerError()
         };

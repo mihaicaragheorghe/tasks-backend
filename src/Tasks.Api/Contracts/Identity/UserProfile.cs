@@ -2,24 +2,20 @@ using Tasks.Domain;
 
 namespace Tasks.Api.Contracts;
 
-public record UserDto(
+public record UserProfileDto(
     Guid Id,
     string Email,
     string Username,
     string? DisplayName,
     string? Bio,
-    string? ProfilePictureUrl,
-    string AccessToken,
-    string RefreshToken)
+    string? ProfilePictureUrl)
 {
-    public UserDto(User user, string accessToken, string refreshToken)
+    public UserProfileDto(User user)
         : this(
             user.Id,
             user.Email!,
             user.UserName!,
             user.DisplayName,
             user.Bio,
-            user.ProfilePictureUrl,
-            accessToken,
-            refreshToken) { }
+            user.ProfilePictureUrl) { }
 }

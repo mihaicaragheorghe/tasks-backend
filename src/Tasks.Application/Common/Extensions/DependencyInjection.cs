@@ -18,7 +18,6 @@ public static class DependencyInjectionRegister
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
         return services;
     }

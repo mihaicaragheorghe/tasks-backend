@@ -4,11 +4,11 @@ using Tasks.Domain;
 
 namespace Tasks.Infrastructure.Persistence.Repository;
 
-public class TaskProjectRepository : ITaskProjectRepository
+public class ProjectRepository : IProjectRepository
 {
     private readonly DataContext _context;
 
-    public TaskProjectRepository(DataContext context)
+    public ProjectRepository(DataContext context)
     {
         _context = context;
     }

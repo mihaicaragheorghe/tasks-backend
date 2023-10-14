@@ -24,8 +24,13 @@ public static class DependencyInjectionRegister
             options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
         });
 
-        services.AddScoped<ITaskProjectRepository, TaskProjectRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<ISectionRepository, SectionRepository>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<ISubtaskRepository, SubtaskRepository>();
 
         return services;
     }

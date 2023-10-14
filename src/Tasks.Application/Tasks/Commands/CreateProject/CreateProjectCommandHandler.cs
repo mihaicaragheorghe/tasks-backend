@@ -1,15 +1,16 @@
 using MediatR;
+using Tasks.Application.Common.Errors;
 using Tasks.Application.Common.Repository;
 using Tasks.Application.Core;
 using Tasks.Domain;
 
-namespace Tasks.Application.Tasks;
+namespace Tasks.Application.Tasks.Commands;
 
 public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, Project>
 {
-    private readonly ITaskProjectRepository _taskProjectRepository;
+    private readonly IProjectRepository _taskProjectRepository;
 
-    public CreateProjectCommandHandler(ITaskProjectRepository taskProjectRepository)
+    public CreateProjectCommandHandler(IProjectRepository taskProjectRepository)
     {
         _taskProjectRepository = taskProjectRepository;
     }
@@ -22,7 +23,7 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
 
         if (!success)
         {
-            throw new AppException(Errors.Project.FailedToCreate);
+            throw new ServiceException(Errors.Project.FailedToCreate);
         }
 
         return project;

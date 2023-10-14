@@ -16,7 +16,7 @@ public class ErrorResponse
     public ErrorResponse(Error error) => 
         _errors = new List<ErrorDto> { new(error) };
 
-    public ErrorResponse(AppException exception) : this(exception.Error) { }
+    public ErrorResponse(ServiceException exception) : this(exception.Error) { }
 
     public ErrorResponse(ValidationException exception) 
         : this(exception.Errors.Select(x => new ErrorDto(x.ErrorCode, x.ErrorMessage)).ToList()) { }
