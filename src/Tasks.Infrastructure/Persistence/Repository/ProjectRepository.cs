@@ -29,8 +29,10 @@ public class ProjectRepository : IProjectRepository
     {
         return await _context.Projects
             .Where(project => project.OwnerId == userId)
-            .OrderBy(project => project.Order != 0)
+            .OrderBy(project => project.IsFavorite)
+            .ThenBy(project => project.Order != 0)
             .ThenBy(project => project.Order)
+            .ThenBy(project => project.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }
 

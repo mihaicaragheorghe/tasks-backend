@@ -19,7 +19,17 @@ public record ProjectDto(
             project.Color,
             project.IsArchived,
             project.IsFavorite,
-            project.Sections.Select(x => new SectionDto(x)).ToList(),
-            project.Tasks.Select(x => new TaskDto(x)).ToList(),
-            project.Collaborators.Select(x => new UserProfileDto(x)).ToList()) { }
+            project.Sections
+                .OrderBy(x => x.Order != 0)
+                .ThenBy(x => x.Order)
+                .Select(x => new SectionDto(x))
+                .ToList(),
+            project.Tasks
+                .OrderBy(x => x.CreatedAtUtc)
+                .Select(x => new TaskDto(x))
+                .ToList(),
+            project.Collaborators
+                .OrderBy(x => x.DisplayName)
+                .Select(x => new UserProfileDto(x))
+                .ToList()) { }
 }

@@ -3,9 +3,9 @@ using Tasks.Domain;
 
 namespace Tasks.Application.Tasks.Queries;
 
-public record GetTasksQuery(Guid UserId) : IRequest<IEnumerable<TaskEntity>>;
+public record GetTasksQuery(Guid UserId) : IRequest<List<TaskEntity>>;
 
-public class GetTasksQueryHandler : IRequestHandler<GetTasksQuery, IEnumerable<TaskEntity>>
+public class GetTasksQueryHandler : IRequestHandler<GetTasksQuery, List<TaskEntity>>
 {
     private readonly ITaskRepository _taskRepository;
 
@@ -14,7 +14,7 @@ public class GetTasksQueryHandler : IRequestHandler<GetTasksQuery, IEnumerable<T
         _taskRepository = taskRepository;
     }
 
-    public async Task<IEnumerable<TaskEntity>> Handle(GetTasksQuery request, CancellationToken cancellationToken)
+    public async Task<List<TaskEntity>> Handle(GetTasksQuery request, CancellationToken cancellationToken)
     {
         return await _taskRepository.GetAllAsync(request.UserId, cancellationToken);
     }

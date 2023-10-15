@@ -24,10 +24,9 @@ public class TasksController : BaseController
     {
         var user = await _userManager.GetUserAsync(User);
 
-        if (user is null) return Unauthorized();
-
-        return Ok(new TaskDto(
-            await _sender.Send(new CreateTaskCommand(
+        return user is null
+            ? Unauthorized()
+            : Ok(new TaskDto(await _sender.Send(new CreateTaskCommand(
                 request.ProjectId,
                 request.SectionId,
                 request.AssignedToUserId,
@@ -45,11 +44,11 @@ public class TasksController : BaseController
     {
         var user = await _userManager.GetUserAsync(User);
 
-        if (user is null) return Unauthorized();
-
-        return Ok((await _sender.Send(new GetTasksQuery(user.Id)))
-            .Select(task => new TaskDto(task))
-            .ToList());
+        return user is null 
+            ? Unauthorized()
+            : Ok((await _sender.Send(new GetTasksQuery(user.Id)))
+                .Select(task => new TaskDto(task))
+                .ToList());
     }
 
     [HttpGet("{id}")]
@@ -57,8 +56,6 @@ public class TasksController : BaseController
     {
         var task = await _sender.Send(new GetTaskByIdQuery(id));
 
-        if (task is null) return NotFound();
-
-        return new TaskDto(task);
+        return task is null ? NotFound() : new TaskDto(task);
     }
 }

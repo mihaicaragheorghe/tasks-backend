@@ -9,6 +9,7 @@ public class Project
     public bool IsArchived { get; private set; }
     public bool IsFavorite { get; private set; }
     public bool IsDeleted { get; private set; }
+    public DateTime CreatedAtUtc { get; private set; }
 
     public Guid OwnerId { get; private set; }
     public ICollection<Section> Sections { get; private set; } = new List<Section>();
@@ -24,6 +25,7 @@ public class Project
         bool isArchived, 
         bool isFavorite, 
         bool isDeleted,
+        DateTime createdAt,
         Guid ownerId,
         List<Section> sections,
         List<TaskEntity> tasks,
@@ -36,6 +38,7 @@ public class Project
         IsArchived = isArchived;
         IsFavorite = isFavorite;
         IsDeleted = isDeleted;
+        CreatedAtUtc = createdAt;
         OwnerId = ownerId;
         Sections = sections;
         Tasks = tasks;
@@ -58,6 +61,7 @@ public class Project
             false, 
             false, 
             false,
+            DateTime.UtcNow,
             ownerId,
             sections ?? new List<Section>(),
             tasks ?? new List<TaskEntity>(),

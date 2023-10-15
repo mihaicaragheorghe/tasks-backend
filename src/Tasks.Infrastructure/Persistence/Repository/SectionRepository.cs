@@ -28,8 +28,10 @@ public class SectionRepository : ISectionRepository
     public async Task<List<Section>> GetAllAsync(Guid projectId, CancellationToken cancellationToken = default)
     {
         return await _context.Sections
+            .Where(section => section.ProjectId == projectId)
             .OrderBy(section => section.Order != 0)
             .ThenBy(section => section.Order)
+            .ThenBy(section => section.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }
 

@@ -36,8 +36,6 @@ public class SectionsController : BaseController
     {
         var section = await _sender.Send(new GetSectionByIdQuery(id));
 
-        if (section is null) return NotFound();
-
-        return new SectionDto(section);
+        return section is null ? Unauthorized() : new SectionDto(section);
     }
 }

@@ -11,8 +11,8 @@ using Tasks.Infrastructure.Persistence;
 namespace Tasks.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231011164109_RefreshTokenTable")]
-    partial class RefreshTokenTable
+    [Migration("20231015130427_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -215,6 +215,9 @@ namespace Tasks.Infrastructure.Migrations
                         .HasMaxLength(7)
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsArchived")
                         .HasColumnType("INTEGER");
 
@@ -246,6 +249,9 @@ namespace Tasks.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsDeleted")

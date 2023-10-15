@@ -33,7 +33,15 @@ public record TaskDto(
             task.SectionId,
             new UserProfileDto(task.CreatedBy),
             new UserProfileDto(task.AssignedTo),
-            task.Tags.Select(x => new TagDto(x)).ToList(),
-            task.Subtasks,
-            task.Comments.Select(x => new CommentDto(x)).ToList()) { }
+            task.Tags
+                .OrderBy(x => x.Name)
+                .Select(x => new TagDto(x))
+                .ToList(),
+            task.Subtasks
+                .OrderBy(x => x.CreatedAtUtc)
+                .ToList(),
+            task.Comments
+                .OrderByDescending(x => x.CreatedAtUtc)
+                .Select(x => new CommentDto(x))
+                .ToList()) { }
 }

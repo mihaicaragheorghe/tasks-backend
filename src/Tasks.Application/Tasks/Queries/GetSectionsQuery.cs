@@ -4,9 +4,9 @@ using Tasks.Domain;
 
 namespace Tasks.Application.Tasks.Queries;
 
-public record GetSectionsQuery(Guid ProjectId) : IRequest<IEnumerable<Section>>;
+public record GetSectionsQuery(Guid ProjectId) : IRequest<List<Section>>;
 
-public class GetSectionsQueryHandler : IRequestHandler<GetSectionsQuery, IEnumerable<Section>>
+public class GetSectionsQueryHandler : IRequestHandler<GetSectionsQuery, List<Section>>
 {
     private readonly ISectionRepository _sectionRepository;
 
@@ -15,7 +15,7 @@ public class GetSectionsQueryHandler : IRequestHandler<GetSectionsQuery, IEnumer
         _sectionRepository = sectionRepository;
     }
 
-    public async Task<IEnumerable<Section>> Handle(GetSectionsQuery request, CancellationToken cancellationToken)
+    public async Task<List<Section>> Handle(GetSectionsQuery request, CancellationToken cancellationToken)
     {
         return await _sectionRepository.GetAllAsync(request.ProjectId, cancellationToken);
     }

@@ -5,7 +5,8 @@ namespace Tasks.Infrastructure.Persistence;
 
 public class Seed
 {
-    public static async Task SeedData(DataContext context,
+    public static async Task SeedData(
+        DataContext context,
         UserManager<User> userManager)
     {
         if (!userManager.Users.Any())
@@ -16,8 +17,6 @@ public class Seed
                 User.Create("tom", "tom@test.com", "Tom"),
                 User.Create("jane", "jane@test.com", "Jane")
             };
-
-            context.Users.AddRange(users);
 
             foreach (var user in users)
             {
@@ -36,7 +35,6 @@ public class Seed
                         "TODO - add description",
                         TaskPriority.None);
                     var subtask = Subtask.Create(task.Id, "This is a subtask");
-
 
                     context.Projects.Add(project);
                     context.Sections.Add(section);

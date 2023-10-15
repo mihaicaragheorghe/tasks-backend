@@ -13,5 +13,8 @@ public record SectionDto(
             section.Id,
             section.ProjectId,
             section.Name,
-            section.Tasks.Select(x => new TaskDto(x)).ToList()) { }
+            section.Tasks
+                .OrderBy(x => x.CreatedAtUtc)
+                .Select(x => new TaskDto(x))
+                .ToList()) { }
 }

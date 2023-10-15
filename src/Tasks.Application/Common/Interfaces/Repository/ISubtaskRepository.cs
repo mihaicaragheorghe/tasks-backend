@@ -4,7 +4,7 @@ namespace Tasks.Application.Common.Repository;
 
 public interface ISubtaskRepository
 {
-    Task<IEnumerable<Subtask>> GetByTaskIdAsync(Guid taskId, CancellationToken cancellationToken = default);
+    Task<List<Subtask>> GetByTaskIdAsync(Guid taskId, CancellationToken cancellationToken = default);
     Task<Subtask?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<int> AddAsync(Subtask subtask, CancellationToken cancellationToken = default);
     Task<int> UpdateAsync(Subtask subtask, CancellationToken cancellationToken = default);

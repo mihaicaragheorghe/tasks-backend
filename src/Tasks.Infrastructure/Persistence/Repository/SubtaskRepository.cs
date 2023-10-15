@@ -31,11 +31,11 @@ public class SubtaskRepository : ISubtaskRepository
         return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Subtask>> GetByTaskIdAsync(Guid taskId, CancellationToken cancellationToken = default)
+    public async Task<List<Subtask>> GetByTaskIdAsync(Guid taskId, CancellationToken cancellationToken = default)
     {
         return await _context.Subtasks
             .Where(s => s.ParentId == taskId)
-            .OrderByDescending(s => s.CreatedAtUtc)
+            .OrderBy(s => s.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }
 

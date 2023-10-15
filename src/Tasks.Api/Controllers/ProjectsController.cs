@@ -25,10 +25,10 @@ public class ProjectsController : BaseController
     {
         var currentUser = await _userManager.GetUserAsync(User);
 
-        if (currentUser is null) return Unauthorized();
-
-        return new ProjectDto(
-            await _sender.Send(new CreateProjectCommand(currentUser.Id, request.Name, request.Color)));
+        return currentUser is null
+            ? Unauthorized()
+            : new ProjectDto(await _sender.Send(new CreateProjectCommand(   
+                currentUser.Id, request.Name, request.Color)));
     }
 
     [HttpGet]
@@ -36,11 +36,11 @@ public class ProjectsController : BaseController
     {
         var currentUser = await _userManager.GetUserAsync(User);
 
-        if (currentUser is null) return Unauthorized();
-
-        return (await _sender.Send(new GetProjectsQuery(currentUser.Id)))
-            .Select(project => new ProjectDto(project))
-            .ToList();
+        return currentUser is null
+            ? Unauthorized()
+            : (await _sender.Send(new GetProjectsQuery(currentUser.Id)))
+                .Select(project => new ProjectDto(project))
+                .ToList();
     }
 
     [HttpGet("{id}")]
@@ -48,8 +48,6 @@ public class ProjectsController : BaseController
     {
         var project = await _sender.Send(new GetProjectByIdQuery(id));
 
-        if (project is null) return NotFound();
-
-        return new ProjectDto(project);
+        return project is null ? NotFound() : new ProjectDto(project);
     }
 }

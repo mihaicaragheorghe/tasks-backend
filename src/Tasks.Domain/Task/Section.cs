@@ -6,6 +6,7 @@ public class Section
     public string Name { get; private set; } = null!;
     public int Order { get; private set; }
     public bool IsDeleted { get; private set; }
+    public DateTime CreatedAtUtc { get; private set; }
 
     public Guid ProjectId { get; private set; }
     public ICollection<TaskEntity> Tasks { get; private set; } = new List<TaskEntity>();
@@ -15,13 +16,15 @@ public class Section
         Guid projectId,
         string name,
         int order,
-        bool isDeleted)
+        bool isDeleted,
+        DateTime createdAtUtc)
     {
         Id = id;
         ProjectId = projectId;
         Name = name;
         Order = order;
         IsDeleted = isDeleted;
+        CreatedAtUtc = createdAtUtc;
     }
 
     public static Section Create(
@@ -33,7 +36,8 @@ public class Section
             projectId,
             name,
             0,
-            false);
+            false,
+            DateTime.UtcNow);
     }
     
     private Section() { }

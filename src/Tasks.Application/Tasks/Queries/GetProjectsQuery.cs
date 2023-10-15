@@ -4,9 +4,9 @@ using Tasks.Domain;
 
 namespace Tasks.Application.Tasks.Queries;
 
-public record GetProjectsQuery(Guid UserId) : IRequest<IEnumerable<Project>>;
+public record GetProjectsQuery(Guid UserId) : IRequest<List<Project>>;
 
-public class GetProjectsQueryHandler : IRequestHandler<GetProjectsQuery, IEnumerable<Project>>
+public class GetProjectsQueryHandler : IRequestHandler<GetProjectsQuery, List<Project>>
 {
     private readonly IProjectRepository _projectRepository;
 
@@ -15,7 +15,7 @@ public class GetProjectsQueryHandler : IRequestHandler<GetProjectsQuery, IEnumer
         _projectRepository = projectRepository;
     }
 
-    public async Task<IEnumerable<Project>> Handle(GetProjectsQuery request, CancellationToken cancellationToken)
+    public async Task<List<Project>> Handle(GetProjectsQuery request, CancellationToken cancellationToken)
     {
         return await _projectRepository.GetAllAsync(request.UserId, cancellationToken);
     }
