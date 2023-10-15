@@ -5,7 +5,7 @@ public class Project
     public Guid Id { get; private set; }
     public string Name { get; private set; } = null!;
     public string? Color { get; private set; }
-    public int Order { get; private set; }
+    public int OrderIndex { get; private set; }
     public bool IsArchived { get; private set; }
     public bool IsFavorite { get; private set; }
     public DateTime CreatedAtUtc { get; private set; }
@@ -32,7 +32,7 @@ public class Project
         Id = id;
         Name = name;
         Color = color;
-        Order = order;
+        OrderIndex = order;
         IsArchived = isArchived;
         IsFavorite = isFavorite;
         CreatedAtUtc = createdAt;
@@ -73,7 +73,7 @@ public class Project
     {
         Name = name;
         Color = color;
-        Order = order;
+        OrderIndex = order;
         IsArchived = isArchived;
         IsFavorite = isFavorite;
     }

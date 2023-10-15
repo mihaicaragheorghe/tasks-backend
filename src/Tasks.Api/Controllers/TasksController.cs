@@ -39,6 +39,24 @@ public class TasksController : BaseController
                 request.SubtasksTitles ?? new List<string>()))));
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult<TaskDto>> UpdateTask(Guid id, UpdateTaskRequest request)
+    {
+        return Ok(new TaskDto(await _sender.Send(new UpdateTaskCommand(
+            id,
+            request.Title,
+            request.Description,
+            request.Priority,
+            request.IsComplete,
+            request.DueAtUtc,
+            request.IsDeleted,
+            request.OrderIndex,
+            request.ProjectId,
+            request.SectionId,
+            request.AssignedToUserId,
+            request.TagsIds ?? new List<Guid>()))));
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TaskDto>>> GetTasks()
     {

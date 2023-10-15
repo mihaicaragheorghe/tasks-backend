@@ -13,7 +13,7 @@ public class SectionConfiguration : IEntityTypeConfiguration<Section>
         builder.HasKey(s => s.Id);
 
         builder.Property(s => s.Name)
-            .HasMaxLength(50)
+            .HasMaxLength(Constants.Section.NameMaxLength)
             .IsRequired();
 
         builder.HasMany(s => s.Tasks)

@@ -91,5 +91,30 @@ public class TaskEntity
             comments ?? new List<Comment>());
     }
 
+    public void Update(
+        string title,
+        string? description,
+        TaskPriority priority,
+        bool isComplete,
+        DateTime? dueAtUtc,
+        bool isDeleted,
+        int orderIndex,
+        Guid projectId,
+        Guid? sectionId,
+        Guid assignedToUserId,
+        List<Tag> tags)
+    {
+        Title = title;
+        Description = description;
+        Priority = priority;
+        IsComplete = isComplete;
+        DueAtUtc = dueAtUtc;
+        IsDeleted = isDeleted;
+        ProjectId = projectId;
+        SectionId = sectionId;
+        AssignedToUserId = assignedToUserId;
+        Tags = tags;
+    }
+
     private TaskEntity() { }
 }

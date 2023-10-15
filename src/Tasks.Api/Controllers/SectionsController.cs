@@ -23,6 +23,21 @@ public class SectionsController : BaseController
             await _sender.Send(new CreateSectionCommand(request.ProjectId, request.Name))));
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult<SectionDto>> UpdateSection(Guid id, UpdateSectionRequest request)
+    {
+        return Ok(new SectionDto(
+            await _sender.Send(new UpdateSectionCommand(id, request.Name, request.OrderIndex))));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteSection(Guid id)
+    {
+        await _sender.Send(new DeleteSectionCommand(id));
+
+        return NoContent();
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<SectionDto>>> GetSections(Guid projectId)
     {

@@ -20,8 +20,8 @@ public record ProjectDto(
             project.IsArchived,
             project.IsFavorite,
             project.Sections
-                .OrderBy(x => x.Order != 0)
-                .ThenBy(x => x.Order)
+                .OrderBy(x => x.OrderIndex != 0)
+                .ThenBy(x => x.OrderIndex)
                 .Select(x => new SectionDto(x))
                 .ToList(),
             project.Tasks

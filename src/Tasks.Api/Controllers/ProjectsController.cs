@@ -45,6 +45,14 @@ public class ProjectsController : BaseController
         return new ProjectDto(project);
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteProject(Guid id)
+    {
+        await _sender.Send(new DeleteProjectCommand(id));
+
+        return NoContent();
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProjectDto>>> GetProjects()
     {

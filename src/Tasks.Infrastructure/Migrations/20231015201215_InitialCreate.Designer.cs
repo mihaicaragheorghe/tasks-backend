@@ -11,7 +11,7 @@ using Tasks.Infrastructure.Persistence;
 namespace Tasks.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231015130427_InitialCreate")]
+    [Migration("20231015201215_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -221,9 +221,6 @@ namespace Tasks.Infrastructure.Migrations
                     b.Property<bool>("IsArchived")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("IsFavorite")
                         .HasColumnType("INTEGER");
 
@@ -232,7 +229,7 @@ namespace Tasks.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Order")
+                    b.Property<int>("OrderIndex")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid>("OwnerId")
@@ -254,15 +251,12 @@ namespace Tasks.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Order")
+                    b.Property<int>("OrderIndex")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid>("ProjectId")
@@ -369,7 +363,7 @@ namespace Tasks.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

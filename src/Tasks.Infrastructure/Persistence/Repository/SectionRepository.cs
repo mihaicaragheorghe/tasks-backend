@@ -29,8 +29,8 @@ public class SectionRepository : ISectionRepository
     {
         return await _context.Sections
             .Where(section => section.ProjectId == projectId)
-            .OrderBy(section => section.Order != 0)
-            .ThenBy(section => section.Order)
+            .OrderBy(section => section.OrderIndex != 0)
+            .ThenBy(section => section.OrderIndex)
             .ThenBy(section => section.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }

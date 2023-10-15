@@ -4,14 +4,14 @@ using Tasks.Domain;
 
 namespace Tasks.Application.Tasks.Commands;
 
-public class CreateSectionCommandValidator : AbstractValidator<CreateSectionCommand>
+public class UpdateSectionCommandValidator : AbstractValidator<UpdateSectionCommand>
 {
-    public CreateSectionCommandValidator()
+    public UpdateSectionCommandValidator()
     {
-        RuleFor(x => x.ProjectId)
+        RuleFor(x => x.Id)
             .NotEmpty()
-            .WithErrorCode("Section.ProjectIdRequired")
-            .WithMessage("Project id is required.");
+            .WithErrorCode("Section.IdRequired")
+            .WithMessage("Id is required.");
 
         RuleFor(x => x.Name)
             .NotEmpty()

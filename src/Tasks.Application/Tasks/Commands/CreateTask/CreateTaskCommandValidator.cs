@@ -1,4 +1,5 @@
 using FluentValidation;
+using Tasks.Domain;
 
 namespace Tasks.Application.Tasks.Commands;
 
@@ -25,12 +26,12 @@ public class CreateTaskCommandValidator : AbstractValidator<CreateTaskCommand>
             .NotEmpty()
             .WithErrorCode("Task.TitleRequired")
             .WithMessage("Title is required.")
-            .MaximumLength(100)
+            .MaximumLength(Constants.Task.TitleMaxLength)
             .WithErrorCode("Task.TitleMaxLength")
             .WithMessage("Title must not exceed 100 characters.");
 
         RuleFor(x => x.Description)
-            .MaximumLength(500)
+            .MaximumLength(Constants.Task.DescriptionMaxLength)
             .WithErrorCode("Task.DescriptionMaxLength")
             .WithMessage("Description must not exceed 500 characters.");
 

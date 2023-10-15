@@ -13,11 +13,11 @@ public class TaskConfiguration : IEntityTypeConfiguration<TaskEntity>
         builder.HasKey(t => t.Id);
 
         builder.Property(t => t.Title)
-            .HasMaxLength(50)
+            .HasMaxLength(Constants.Task.TitleMaxLength)
             .IsRequired();
 
         builder.Property(t => t.Description)
-            .HasMaxLength(500);
+            .HasMaxLength(Constants.Task.DescriptionMaxLength);
 
         builder.HasOne(t => t.CreatedBy)
             .WithMany()

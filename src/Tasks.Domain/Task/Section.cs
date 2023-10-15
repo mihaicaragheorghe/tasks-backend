@@ -4,8 +4,7 @@ public class Section
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; } = null!;
-    public int Order { get; private set; }
-    public bool IsDeleted { get; private set; }
+    public int OrderIndex { get; private set; }
     public DateTime CreatedAtUtc { get; private set; }
 
     public Guid ProjectId { get; private set; }
@@ -16,15 +15,21 @@ public class Section
         Guid projectId,
         string name,
         int order,
-        bool isDeleted,
         DateTime createdAtUtc)
     {
         Id = id;
         ProjectId = projectId;
         Name = name;
-        Order = order;
-        IsDeleted = isDeleted;
+        OrderIndex = order;
         CreatedAtUtc = createdAtUtc;
+    }
+
+    public Section Update(string name, int orderIndex)
+    {
+        Name = name;
+        OrderIndex = orderIndex;
+
+        return this;
     }
 
     public static Section Create(
@@ -36,7 +41,6 @@ public class Section
             projectId,
             name,
             0,
-            false,
             DateTime.UtcNow);
     }
     

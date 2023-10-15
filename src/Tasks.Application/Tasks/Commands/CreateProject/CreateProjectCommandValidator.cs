@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+
 using FluentValidation;
 
 namespace Tasks.Application.Tasks.Commands;
@@ -9,7 +10,7 @@ public class CreateProjectCommandValidator : AbstractValidator<CreateProjectComm
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(50)
+            .MaximumLength(Domain.Constants.Project.NameMaxLength)
             .WithErrorCode("Project.NameLength")
             .WithMessage("Project name must be between 1 and 50 characters.");
 

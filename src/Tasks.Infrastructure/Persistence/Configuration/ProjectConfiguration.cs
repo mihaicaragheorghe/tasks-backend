@@ -13,7 +13,7 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Name)
-            .HasMaxLength(50)
+            .HasMaxLength(Constants.Project.NameMaxLength)
             .IsRequired();
 
         builder.Property(p => p.Color)

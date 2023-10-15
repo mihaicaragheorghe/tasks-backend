@@ -1,4 +1,8 @@
+using System.Text.RegularExpressions;
+
 using FluentValidation;
+
+using Tasks.Domain;
 
 namespace Tasks.Application.Tasks.Commands;
 
@@ -8,12 +12,13 @@ public class UpdateProjectCommandValidator : AbstractValidator<UpdateProjectComm
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(100);
+            .MaximumLength(Constants.Project.NameMaxLength)
+            .WithErrorCode("Project.NameLength")
+            .WithMessage("Project name must be between 1 and 50 characters.");
 
         RuleFor(x => x.Color)
-            .MaximumLength(10);
-
-        RuleFor(x => x.Order)
-            .GreaterThanOrEqualTo(0);
+            .Must(x => x == null || Regex.IsMatch(x, "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
+            .WithErrorCode("Project.ColorLength")
+            .WithMessage("Project color must be a valid hex color code or null.");
     }
 }
