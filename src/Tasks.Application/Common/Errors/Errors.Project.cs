@@ -10,5 +10,13 @@ public static partial class Errors
             code: "Project.FailedToCreate",
             description: "Failed to create project."
         );
+        public static Error FailedToUpdate => Error.Failure(
+            code: "Project.FailedToUpdate",
+            description: "Failed to update project."
+        );
+        public static Error NotFound => Error.NotFound(
+            code: "Project.NotFound",
+            description: "Project not found."
+        );
     }
 }

@@ -8,7 +8,6 @@ public class Project
     public int Order { get; private set; }
     public bool IsArchived { get; private set; }
     public bool IsFavorite { get; private set; }
-    public bool IsDeleted { get; private set; }
     public DateTime CreatedAtUtc { get; private set; }
 
     public Guid OwnerId { get; private set; }
@@ -24,7 +23,6 @@ public class Project
         int order,
         bool isArchived, 
         bool isFavorite, 
-        bool isDeleted,
         DateTime createdAt,
         Guid ownerId,
         List<Section> sections,
@@ -37,7 +35,6 @@ public class Project
         Order = order;
         IsArchived = isArchived;
         IsFavorite = isFavorite;
-        IsDeleted = isDeleted;
         CreatedAtUtc = createdAt;
         OwnerId = ownerId;
         Sections = sections;
@@ -59,13 +56,26 @@ public class Project
             color, 
             0,
             false, 
-            false, 
             false,
             DateTime.UtcNow,
             ownerId,
             sections ?? new List<Section>(),
             tasks ?? new List<TaskEntity>(),
             collaborators ?? new List<User>());
+    }
+
+    public void Update(
+        string name, 
+        string? color, 
+        int order,
+        bool isArchived, 
+        bool isFavorite)
+    {
+        Name = name;
+        Color = color;
+        Order = order;
+        IsArchived = isArchived;
+        IsFavorite = isFavorite;
     }
 
     private Project() { }

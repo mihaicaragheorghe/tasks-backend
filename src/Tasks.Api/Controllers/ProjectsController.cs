@@ -31,6 +31,20 @@ public class ProjectsController : BaseController
                 currentUser.Id, request.Name, request.Color)));
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult<ProjectDto>> UpdateProject(Guid id, UpdateProjectRequest request)
+    {
+        var project = await _sender.Send(new UpdateProjectCommand(
+            id,
+            request.Name,
+            request.Color,
+            request.Order,
+            request.IsArchived,
+            request.IsFavorite));
+
+        return new ProjectDto(project);
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProjectDto>>> GetProjects()
     {
