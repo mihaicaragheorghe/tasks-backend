@@ -25,10 +25,12 @@ public class ProjectRepository : IProjectRepository
         return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Project>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<List<Project>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         return await _context.Projects
             .Where(project => project.OwnerId == userId)
+            .OrderBy(project => project.Order != 0)
+            .ThenBy(project => project.Order)
             .ToListAsync(cancellationToken);
     }
 

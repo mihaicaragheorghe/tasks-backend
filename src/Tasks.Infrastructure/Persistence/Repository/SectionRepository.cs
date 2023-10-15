@@ -25,10 +25,11 @@ public class SectionRepository : ISectionRepository
         return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Section>> GetAllAsync(Guid projectId, CancellationToken cancellationToken = default)
+    public async Task<List<Section>> GetAllAsync(Guid projectId, CancellationToken cancellationToken = default)
     {
         return await _context.Sections
-            .Where(s => s.ProjectId == projectId)
+            .OrderBy(section => section.Order != 0)
+            .ThenBy(section => section.Order)
             .ToListAsync(cancellationToken);
     }
 

@@ -21,5 +21,8 @@ public class SectionConfiguration : IEntityTypeConfiguration<Section>
             .HasForeignKey(t => t.SectionId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
+
+        builder.Navigation(s => s.Tasks)
+            .AutoInclude();
     }
 }

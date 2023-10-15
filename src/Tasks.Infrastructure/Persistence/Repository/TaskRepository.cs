@@ -31,38 +31,25 @@ public class TaskRepository : ITaskRepository
         return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<TaskEntity>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<List<TaskEntity>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         return await _context.Tasks
-            .Include(t => t.CreatedBy)
-            .Include(t => t.AssignedTo)
-            .Include(t => t.Comments)
-            .Include(t => t.Tags)
-            .Include(t => t.Subtasks)
             .Where(t => t.AssignedToUserId == userId || t.CreatedByUserId == userId)
+            .OrderByDescending(t => t.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<TaskEntity>> GetByProjectIdAsync(Guid projectId, CancellationToken cancellationToken = default)
+    public async Task<List<TaskEntity>> GetByProjectIdAsync(Guid projectId, CancellationToken cancellationToken = default)
     {
         return await _context.Tasks
-            .Include(t => t.CreatedBy)
-            .Include(t => t.AssignedTo)
-            .Include(t => t.Comments)
-            .Include(t => t.Tags)
-            .Include(t => t.Subtasks)
             .Where(t => t.ProjectId == projectId)
+            .OrderByDescending(t => t.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }
 
     public async Task<TaskEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _context.Tasks
-            .Include(t => t.CreatedBy)
-            .Include(t => t.AssignedTo)
-            .Include(t => t.Comments)
-            .Include(t => t.Tags)
-            .Include(t => t.Subtasks)
             .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
 }

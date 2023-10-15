@@ -35,6 +35,7 @@ public class SubtaskRepository : ISubtaskRepository
     {
         return await _context.Subtasks
             .Where(s => s.ParentId == taskId)
+            .OrderByDescending(s => s.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }
 

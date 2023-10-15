@@ -31,11 +31,17 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
+        builder.Navigation(p => p.Sections)
+            .AutoInclude();
+
         builder.HasMany(p => p.Tasks)
             .WithOne()
             .HasForeignKey(t => t.ProjectId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
+
+        builder.Navigation(p => p.Tasks)
+            .AutoInclude();
         
         builder.Ignore(p => p.Collaborators);
     }

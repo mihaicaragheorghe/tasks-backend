@@ -31,10 +31,11 @@ public class CommentRepository : ICommentRepository
         return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Comment>> GetByTaskIdAsync(Guid taskId, CancellationToken cancellationToken = default)
+    public async Task<List<Comment>> GetByTaskIdAsync(Guid taskId, CancellationToken cancellationToken = default)
     {
         return await _context.Comments
             .Where(c => c.TaskId == taskId)
+            .OrderByDescending(c => c.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }
 

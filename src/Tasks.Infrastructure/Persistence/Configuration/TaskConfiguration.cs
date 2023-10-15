@@ -23,11 +23,17 @@ public class TaskConfiguration : IEntityTypeConfiguration<TaskEntity>
             .WithMany()
             .HasForeignKey(t => t.CreatedByUserId)
             .IsRequired();
+        
+        builder.Navigation(t => t.CreatedBy)
+            .AutoInclude();
 
         builder.HasOne(t => t.AssignedTo)
             .WithMany()
             .HasForeignKey(t => t.AssignedToUserId)
             .IsRequired();
+
+        builder.Navigation(t => t.AssignedTo)
+            .AutoInclude();
 
         builder.HasMany(t => t.Subtasks)
             .WithOne()
@@ -35,15 +41,25 @@ public class TaskConfiguration : IEntityTypeConfiguration<TaskEntity>
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
 
+        builder.Navigation(t => t.Subtasks)
+            .AutoInclude();
+
         builder.HasMany(t => t.Tags)
             .WithMany()
             .UsingEntity(j => j.ToTable("TaskTagIds"));
-        
 
+        builder.Navigation(t => t.Tags)
+            .AutoInclude();
+        
         builder.HasMany(t => t.Comments)
             .WithOne()
             .HasForeignKey(c => c.TaskId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
+
+        builder.Navigation(t => t.Comments)
+            .AutoInclude();
+        
+        builder.HasQueryFilter(t => !t.IsDeleted);
     }
 }

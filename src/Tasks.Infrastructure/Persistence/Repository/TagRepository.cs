@@ -31,17 +31,19 @@ public class TagRepository : ITagRepository
         return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Tag>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<List<Tag>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         return await _context.Tags
             .Where(t => t.UserId == userId)
+            .OrderBy(t => t.Name)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Tag>> GetTagsByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken = default)
+    public async Task<List<Tag>> GetTagsByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default)
     {
         return await _context.Tags
             .Where(t => ids.Contains(t.Id))
+            .OrderBy(t => t.Name)
             .ToListAsync(cancellationToken);
     }
 
