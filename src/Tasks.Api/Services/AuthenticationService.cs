@@ -99,20 +99,14 @@ public class AuthenticationService
 
     public async Task<UserIdentityDto> RefreshToken(RefreshTokenRequest request)
     {
-        var currentUser = _httpContextAccessor.HttpContext?.User
-            ?? throw new ServiceException(Errors.Authentication.Unauthorized);
-
-        var userIdentity = await _userManager.GetUserAsync(currentUser)
-            ?? throw new ServiceException(Errors.Authentication.Unauthorized);
-        
-        var refreshToken = await _refreshTokenRepository.GetAsync(userIdentity.Id)
+        var refreshToken = await _refreshTokenRepository.GetAsync(request.RefreshToken)
             ?? throw new ServiceException(Errors.Authentication.RefreshTokenNotFound);
-
-        if (refreshToken?.Token != request.RefreshToken) 
-            throw new ServiceException(Errors.Authentication.InvalidRefreshToken);
 
         if (!_refreshTokenValidator.Validate(request.RefreshToken))
             throw new ServiceException(Errors.Authentication.InvalidRefreshToken);
+
+        var userIdentity = await _userManager.FindByIdAsync(refreshToken.UserId.ToString())
+            ?? throw new ServiceException(Errors.Authentication.UserNotFound);
 
         var accessToken = _tokenGeneratorService.Generate(userIdentity);
         refreshToken.Token = _tokenGeneratorService.GenerateRefreshToken();

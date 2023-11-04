@@ -1,0 +1,581 @@
+{
+	"info": {
+		"_postman_id": "0ed72dc3-5a69-4a9f-a7f5-8523ffab8b58",
+		"name": "Tasks app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25058269"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();",
+									"var accessToken = response.accessToken;",
+									"var refreshToken = response.refreshToken;",
+									"",
+									"pm.collectionVariables.set(\"accessToken\", accessToken);",
+									"pm.collectionVariables.set(\"refreshToken\", refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"bob@test.com\",\n    \"password\": \"Pa$$w0rd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/account/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();",
+									"var accessToken = response.accessToken;",
+									"var refreshToken = response.refreshToken;",
+									"",
+									"pm.collectionVariables.set(\"accessToken\", accessToken);",
+									"pm.collectionVariables.set(\"refreshToken\", refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/account/refresh-token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "Create project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"TODO\",\n  \"color\": \"#913A27\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"todo\",\n  \"color\": \"red\",\n  \"order\": 1,\n  \"isArchived\": false,\n  \"isFavorite\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/projects/3d3f6b07-5cba-4405-859f-359d65c64684",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects",
+								"3d3f6b07-5cba-4405-859f-359d65c64684"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get projects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/projects/3d3f6b07-5cba-4405-859f-359d65c64684",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects",
+								"3d3f6b07-5cba-4405-859f-359d65c64684"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/projects/3d3f6b07-5cba-4405-859f-359d65c64684",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects",
+								"3d3f6b07-5cba-4405-859f-359d65c64684"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Section",
+			"item": [
+				{
+					"name": "Create section",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"projectId\": \"fbfc05c3-e587-4880-8af3-56421f8b9a29\",\n  \"name\": \"Waiting for\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/sections",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get sections",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/sections?projectId=fbfc05c3-e587-4880-8af3-56421f8b9a29",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sections"
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "fbfc05c3-e587-4880-8af3-56421f8b9a29"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get section",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/sections/4d0179a8-a878-4b2b-bd43-ae593463f91b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sections",
+								"4d0179a8-a878-4b2b-bd43-ae593463f91b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Create task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"projectId\": \"c5e7254b-67a4-4294-b1af-7a2306b304c4\",\n  \"sectionId\": \"5c56f5f6-24fb-466d-b8ed-888fa4c0f3ba\",\n  \"assignedToUserId\": \"20d7ecf5-c53e-4d28-b181-74ee7536b7f0\",\n  \"title\": \"Task 2\",\n  \"description\": \"Do something\",\n  \"priority\": 1,\n  \"dueAtUtc\": \"2023-10-16T11:34:03.593Z\",\n  \"subtasksTitles\": [\n      \n],\n  \"tagsIds\": [\n\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/tasks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tasks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tasks/da22d2bf-a667-4cb5-a7ad-3f4ce84c8445",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tasks",
+								"da22d2bf-a667-4cb5-a7ad-3f4ce84c8445"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subtask",
+			"item": [
+				{
+					"name": "Create subtask",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parentId\": \"da22d2bf-a667-4cb5-a7ad-3f4ce84c8445\",\n  \"title\": \"Subtask 3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subtasks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subtasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get subtasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/subtasks?parentId=da22d2bf-a667-4cb5-a7ad-3f4ce84c8445",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subtasks"
+							],
+							"query": [
+								{
+									"key": "parentId",
+									"value": "da22d2bf-a667-4cb5-a7ad-3f4ce84c8445"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:5076",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refreshToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

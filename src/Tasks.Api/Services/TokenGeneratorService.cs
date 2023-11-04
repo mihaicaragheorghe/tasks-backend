@@ -37,7 +37,7 @@ public class TokenGeneratorService
             issuer: _options.Issuer,
             audience: _options.Audience,
             claims: claims,
-            expires: DateTime.Now.AddHours(_options.AccessTokenExpirationHours),
+            expires: DateTime.Now.AddMinutes(_options.AccessTokenExpirationMinutes),
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);

@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 using Tasks.Application.Common.Models;
 using Tasks.Application.Common.Repository;
 
@@ -21,6 +23,11 @@ public class RefreshTokenRepository : IRefreshTokenRepository
     public async Task<RefreshToken?> GetAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         return await _context.RefreshTokens.FindAsync(new object[] { userId }, cancellationToken);
+    }
+
+    public async Task<RefreshToken?> GetAsync(string token, CancellationToken cancellationToken = default)
+    {
+        return await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token.Equals(token), cancellationToken);
     }
 
     public async Task<int> UpdateAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default)
