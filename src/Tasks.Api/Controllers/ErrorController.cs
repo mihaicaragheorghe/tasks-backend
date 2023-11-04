@@ -1,3 +1,5 @@
+using System.Net;
+
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +17,13 @@ public class ErrorController : ControllerBase
     {
         var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
         var exception = context?.Error;
+
+        Response.StatusCode = exception switch
+        {
+            ServiceException appException => (int)appException.Error.HttpStatusCode,
+            ValidationException => (int)HttpStatusCode.BadRequest,
+            _ => (int)HttpStatusCode.InternalServerError
+        };
 
         return exception switch
         {
