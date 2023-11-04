@@ -30,7 +30,7 @@ public class AccountController : ControllerBase
         return await _authenticationService.Login(request);
     }
 
-    [Authorize]
+    [AllowAnonymous]
     [HttpPost("refresh-token")]
     public async Task<ActionResult<UserIdentityDto>> RefreshToken(RefreshTokenRequest request)
     {

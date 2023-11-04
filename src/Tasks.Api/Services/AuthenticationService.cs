@@ -119,12 +119,9 @@ public class AuthenticationService
 
         bool success = await _refreshTokenRepository.UpdateAsync(refreshToken) > 0;
 
-        if (!success)
-        {
-            throw new ServiceException(Errors.Authentication.FailedToCreateRefreshToken);
-        }
-
-        return new UserIdentityDto(userIdentity, accessToken, refreshToken.Token);
+        return success
+            ? new UserIdentityDto(userIdentity, accessToken, refreshToken.Token)
+            : throw new ServiceException(Errors.Authentication.FailedToCreateRefreshToken);
     }
 
     public async Task Logout()
