@@ -26,35 +26,13 @@ public class TasksController : BaseController
 
         return user is null
             ? Unauthorized()
-            : Ok(new TaskDto(await _sender.Send(new CreateTaskCommand(
-                request.ProjectId,
-                request.SectionId,
-                request.AssignedToUserId,
-                user.Id,
-                request.Title,
-                request.Description,
-                request.Priority,
-                request.DueAtUtc,
-                request.TagsIds ?? new List<Guid>(),
-                request.SubtasksTitles ?? new List<string>()))));
+            : Ok(new TaskDto(await _sender.Send(request.ToCommand(user.Id))));
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult<TaskDto>> UpdateTask(Guid id, UpdateTaskRequest request)
     {
-        return Ok(new TaskDto(await _sender.Send(new UpdateTaskCommand(
-            id,
-            request.Title,
-            request.Description,
-            request.Priority,
-            request.IsComplete,
-            request.DueAtUtc,
-            request.IsDeleted,
-            request.OrderIndex,
-            request.ProjectId,
-            request.SectionId,
-            request.AssignedToUserId,
-            request.TagsIds ?? new List<Guid>()))));
+        return Ok(new TaskDto(await _sender.Send(request.ToCommand(id))));
     }
 
     [HttpGet]

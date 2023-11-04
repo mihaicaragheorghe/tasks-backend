@@ -27,22 +27,13 @@ public class ProjectsController : BaseController
 
         return currentUser is null
             ? Unauthorized()
-            : new ProjectDto(await _sender.Send(new CreateProjectCommand(   
-                currentUser.Id, request.Name, request.Color)));
+            : new ProjectDto(await _sender.Send(request.ToCommand(currentUser.Id)));
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult<ProjectDto>> UpdateProject(Guid id, UpdateProjectRequest request)
     {
-        var project = await _sender.Send(new UpdateProjectCommand(
-            id,
-            request.Name,
-            request.Color,
-            request.Order,
-            request.IsArchived,
-            request.IsFavorite));
-
-        return new ProjectDto(project);
+        return Ok(await _sender.Send(request.ToCommand(id)));
     }
 
     [HttpDelete("{id}")]

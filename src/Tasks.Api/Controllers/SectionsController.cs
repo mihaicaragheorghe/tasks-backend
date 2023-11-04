@@ -19,15 +19,13 @@ public class SectionsController : BaseController
     [HttpPost]
     public async Task<ActionResult<SectionDto>> CreateSection(CreateSectionRequest request)
     {
-        return Ok(new SectionDto(
-            await _sender.Send(new CreateSectionCommand(request.ProjectId, request.Name))));
+        return Ok(new SectionDto(await _sender.Send(request.ToCommand())));
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult<SectionDto>> UpdateSection(Guid id, UpdateSectionRequest request)
     {
-        return Ok(new SectionDto(
-            await _sender.Send(new UpdateSectionCommand(id, request.Name, request.OrderIndex))));
+        return Ok(new SectionDto(await _sender.Send(request.ToCommand(id))));
     }
 
     [HttpDelete("{id}")]

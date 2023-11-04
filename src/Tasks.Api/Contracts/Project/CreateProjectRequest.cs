@@ -1,6 +1,13 @@
+using Tasks.Application.Tasks.Commands;
+
 namespace Tasks.Api.Contracts;
 
 public record CreateProjectRequest(
     string Name,
-    string? Color
-);
+    string? Color)
+{
+    public CreateProjectCommand ToCommand(Guid userId) => new(
+        userId,
+        Name,
+        Color);
+};

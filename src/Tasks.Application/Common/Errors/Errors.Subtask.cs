@@ -10,5 +10,13 @@ public static partial class Errors
             code: "Subtask.FailedToCreate",
             description: "Failed to create subtask."
         );
+        public static Error FailedToUpdate => Error.Failure(
+            code: "Subtask.FailedToUpdate",
+            description: "Failed to update subtask."
+        );
+        public static Error NotFound => Error.NotFound(
+            code: "Subtask.NotFound",
+            description: "Subtask not found."
+        );
     }
 }

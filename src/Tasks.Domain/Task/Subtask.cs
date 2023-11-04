@@ -25,6 +25,15 @@ public class Subtask
         CreatedAtUtc = createdAt;
         CompletedAtUtc = completedAt;
     }
+
+    public void Update(
+        string title,
+        bool isComplete)
+    {
+        Title = title;
+        IsComplete = isComplete;
+        CompletedAtUtc = isComplete ? DateTime.UtcNow : null;
+    }
     
     public static Subtask Create(
         Guid parentId,

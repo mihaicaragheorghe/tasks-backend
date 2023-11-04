@@ -17,9 +17,23 @@ public class SubtasksController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult<Subtask>> CreateSubtask(CreateSubtaskRequest command)
+    public async Task<ActionResult<Subtask>> CreateSubtask(CreateSubtaskRequest request)
     {
-        return Ok(await _sender.Send(new CreateSubtaskCommand(command.ParentId, command.Title)));
+        return Ok(await _sender.Send(request.ToCommand()));
+    }
+
+    [HttpPut]
+    public async Task<ActionResult<Subtask>> UpdateSubtask(Guid id, UpdateSubtaskRequest request)
+    {
+        return Ok(await _sender.Send(request.ToCommand(id)));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteSubtask(Guid id)
+    {
+        await _sender.Send(new DeleteSubtaskCommand(id));
+
+        return NoContent();
     }
 
     [HttpGet]

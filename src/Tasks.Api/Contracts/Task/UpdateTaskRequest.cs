@@ -1,3 +1,4 @@
+using Tasks.Application.Tasks.Commands;
 using Tasks.Domain;
 
 namespace Tasks.Api.Contracts;
@@ -13,4 +14,19 @@ public record UpdateTaskRequest(
     Guid ProjectId,
     Guid? SectionId,
     Guid AssignedToUserId,
-    List<Guid>? TagsIds);
+    List<Guid>? TagsIds)
+{
+    public UpdateTaskCommand ToCommand(Guid id) => new(
+        id,
+        Title,
+        Description,
+        Priority,
+        IsComplete,
+        DueAtUtc,
+        IsDeleted,
+        OrderIndex,
+        ProjectId,
+        SectionId,
+        AssignedToUserId,
+        TagsIds ?? new List<Guid>());
+};
