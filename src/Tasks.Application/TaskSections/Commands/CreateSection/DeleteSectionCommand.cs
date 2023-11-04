@@ -5,7 +5,7 @@ using Tasks.Application.Common.Errors;
 using Tasks.Application.Common.Repository;
 using Tasks.Application.Core;
 
-namespace Tasks.Application.Tasks.Commands;
+namespace Tasks.Application.TaskSections.Commands;
 
 public record DeleteSectionCommand(Guid Id) : IRequest<Unit>;
 

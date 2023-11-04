@@ -5,7 +5,7 @@ using Tasks.Application.Common.Errors;
 using Tasks.Application.Common.Repository;
 using Tasks.Application.Core;
 
-namespace Tasks.Application.Tasks.Commands;
+namespace Tasks.Application.TaskProjects.Commands;
 
 public record DeleteProjectCommand(Guid Id) : IRequest<Unit>;
 

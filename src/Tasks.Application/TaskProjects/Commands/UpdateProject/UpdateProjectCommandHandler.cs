@@ -6,7 +6,7 @@ using Tasks.Application.Common.Repository;
 using Tasks.Application.Core;
 using Tasks.Domain;
 
-namespace Tasks.Application.Tasks.Commands;
+namespace Tasks.Application.TaskProjects.Commands;
 
 public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand, Project>
 {

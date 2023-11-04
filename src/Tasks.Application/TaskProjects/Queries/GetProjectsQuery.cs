@@ -2,7 +2,7 @@ using MediatR;
 using Tasks.Application.Common.Repository;
 using Tasks.Domain;
 
-namespace Tasks.Application.Tasks.Queries;
+namespace Tasks.Application.TaskProjects.Queries;
 
 public record GetProjectsQuery(Guid UserId) : IRequest<List<Project>>;
 

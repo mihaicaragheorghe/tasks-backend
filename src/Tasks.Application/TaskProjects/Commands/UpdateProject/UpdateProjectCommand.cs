@@ -2,7 +2,7 @@ using MediatR;
 
 using Tasks.Domain;
 
-namespace Tasks.Application.Tasks.Commands;
+namespace Tasks.Application.TaskProjects.Commands;
 
 public record UpdateProjectCommand(
     Guid Id,

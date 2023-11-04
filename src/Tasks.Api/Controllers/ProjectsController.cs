@@ -1,10 +1,13 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
+
 using Tasks.Api.Contracts;
-using Tasks.Application.Tasks.Commands;
-using Tasks.Application.Tasks.Queries;
+using Tasks.Application.TaskProjects.Commands;
+using Tasks.Application.TaskProjects.Queries;
 using Tasks.Domain;
 
 namespace Tasks.Api.Controllers;

@@ -1,4 +1,4 @@
-using Tasks.Application.Tasks.Commands;
+using Tasks.Application.TaskSections.Commands;
 
 namespace Tasks.Api.Contracts;
 

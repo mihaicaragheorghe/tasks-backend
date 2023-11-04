@@ -1,9 +1,12 @@
 using MediatR;
+
+
 using Microsoft.AspNetCore.Mvc;
+
+
 using Tasks.Api.Contracts;
-using Tasks.Application.Tasks.Commands;
 using Tasks.Application.Tasks.Queries;
-using Tasks.Domain;
+using Tasks.Application.TaskSections.Commands;
 
 namespace Tasks.Api.Controllers;
 

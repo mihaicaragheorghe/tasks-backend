@@ -1,9 +1,16 @@
 using System.Reflection;
+
+
 using FluentValidation;
+
+
 using MediatR;
+
+
 using Microsoft.Extensions.DependencyInjection;
+
+
 using Tasks.Application.Common.Behavior;
-using Tasks.Application.Core;
 
 namespace Tasks.Application.Extensions;
 

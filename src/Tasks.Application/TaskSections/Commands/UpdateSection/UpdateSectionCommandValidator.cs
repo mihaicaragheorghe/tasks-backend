@@ -2,7 +2,7 @@ using FluentValidation;
 
 using Tasks.Domain;
 
-namespace Tasks.Application.Tasks.Commands;
+namespace Tasks.Application.TaskSections.Commands;
 
 public class UpdateSectionCommandValidator : AbstractValidator<UpdateSectionCommand>
 {

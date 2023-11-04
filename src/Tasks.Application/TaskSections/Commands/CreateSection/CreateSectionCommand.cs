@@ -1,7 +1,7 @@
 using MediatR;
 using Tasks.Domain;
 
-namespace Tasks.Application.Tasks.Commands;
+namespace Tasks.Application.TaskSections.Commands;
 
 public record CreateSectionCommand(
     Guid ProjectId,
