@@ -288,7 +288,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"projectId\": \"fbfc05c3-e587-4880-8af3-56421f8b9a29\",\n  \"name\": \"Waiting for\"\n}",
+							"raw": "{\n  \"projectId\": \"18ccb740-863f-44e9-a865-683507b5df17\",\n  \"name\": \"Waiting for\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -390,7 +390,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"projectId\": \"c5e7254b-67a4-4294-b1af-7a2306b304c4\",\n  \"sectionId\": \"5c56f5f6-24fb-466d-b8ed-888fa4c0f3ba\",\n  \"assignedToUserId\": \"20d7ecf5-c53e-4d28-b181-74ee7536b7f0\",\n  \"title\": \"Task 2\",\n  \"description\": \"Do something\",\n  \"priority\": 1,\n  \"dueAtUtc\": \"2023-10-16T11:34:03.593Z\",\n  \"subtasksTitles\": [\n      \n],\n  \"tagsIds\": [\n\n  ]\n}",
+							"raw": "{\n  \"projectId\": \"18ccb740-863f-44e9-a865-683507b5df17\",\n  \"sectionId\": \"5ddc6aa6-6f4f-4ff3-a7dd-7c5ace6a6e1f\",\n  \"assignedToUserId\": \"22d9a73a-712a-439e-8631-dab0517a2536\",\n  \"title\": \"Task 2\",\n  \"description\": \"Do something\",\n  \"priority\": 1,\n  \"dueAtUtc\": \"2023-12-16T11:34:03.593Z\",\n  \"subtasksTitles\": [\n      \n],\n  \"tagsIds\": [\n\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -452,13 +452,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/tasks/da22d2bf-a667-4cb5-a7ad-3f4ce84c8445",
+							"raw": "{{url}}/tasks/7a49fe09-0840-4a80-9bac-0827879b1b22",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"tasks",
-								"da22d2bf-a667-4cb5-a7ad-3f4ce84c8445"
+								"7a49fe09-0840-4a80-9bac-0827879b1b22"
 							]
 						}
 					},
@@ -539,8 +539,67 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Get comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/comments/7a49fe09-0840-4a80-9bac-0827879b1b22",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"comments",
+								"7a49fe09-0840-4a80-9bac-0827879b1b22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"taskId\": \"7a49fe09-0840-4a80-9bac-0827879b1b22\",\n  \"content\": \"This is a test comment\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/comments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",

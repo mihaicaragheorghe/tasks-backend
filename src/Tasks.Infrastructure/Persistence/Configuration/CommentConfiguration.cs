@@ -12,6 +12,9 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
 
         builder.HasKey(c => c.Id);
 
+        builder.Navigation(c => c.User)
+            .AutoInclude();
+
         builder.Property(c => c.Content)
             .HasMaxLength(500)
             .IsRequired();
