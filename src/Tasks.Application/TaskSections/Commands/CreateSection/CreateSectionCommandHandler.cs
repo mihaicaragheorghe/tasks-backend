@@ -6,14 +6,10 @@ using Tasks.Domain;
 
 namespace Tasks.Application.TaskSections.Commands;
 
-public class CreateSectionCommandHandler : IRequestHandler<CreateSectionCommand, Section>
+public class CreateSectionCommandHandler(ISectionRepository taskSectionRepository) 
+    : IRequestHandler<CreateSectionCommand, Section>
 {
-    private readonly ISectionRepository _taskSectionRepository;
-
-    public CreateSectionCommandHandler(ISectionRepository taskSectionRepository)
-    {
-        _taskSectionRepository = taskSectionRepository;
-    }
+    private readonly ISectionRepository _taskSectionRepository = taskSectionRepository;
 
     public async Task<Section> Handle(CreateSectionCommand command, CancellationToken cancellationToken)
     {
@@ -21,11 +17,6 @@ public class CreateSectionCommandHandler : IRequestHandler<CreateSectionCommand,
 
         bool success = await _taskSectionRepository.AddAsync(section, cancellationToken) > 0;
 
-        if (!success)
-        {
-            throw new ServiceException(Errors.Section.FailedToCreate);
-        }
-
-        return section;
+        return !success ? throw new ServiceException(Errors.Section.FailedToCreate) : section;
     }
 }

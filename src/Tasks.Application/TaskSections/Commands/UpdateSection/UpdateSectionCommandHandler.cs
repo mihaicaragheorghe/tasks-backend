@@ -8,14 +8,10 @@ using Tasks.Domain;
 
 namespace Tasks.Application.TaskSections.Commands;
 
-public class UpdateSectionCommandHandler : IRequestHandler<UpdateSectionCommand, Section>
+public class UpdateSectionCommandHandler(ISectionRepository sectionRepository) 
+    : IRequestHandler<UpdateSectionCommand, Section>
 {
-    private readonly ISectionRepository _sectionRepository;
-
-    public UpdateSectionCommandHandler(ISectionRepository sectionRepository)
-    {
-        _sectionRepository = sectionRepository;
-    }
+    private readonly ISectionRepository _sectionRepository = sectionRepository;
 
     public async Task<Section> Handle(UpdateSectionCommand request, CancellationToken cancellationToken)
     {

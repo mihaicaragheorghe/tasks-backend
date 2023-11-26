@@ -9,14 +9,10 @@ namespace Tasks.Application.TaskProjects.Commands;
 
 public record DeleteProjectCommand(Guid Id) : IRequest<Unit>;
 
-public class DeleteProjectHandler : IRequestHandler<DeleteProjectCommand, Unit>
+public class DeleteProjectCommandHandler(IProjectRepository projectRepository) 
+    : IRequestHandler<DeleteProjectCommand, Unit>
 {
-    private readonly IProjectRepository _projectRepository;
-
-    public DeleteProjectHandler(IProjectRepository projectRepository)
-    {
-        _projectRepository = projectRepository;
-    }
+    private readonly IProjectRepository _projectRepository = projectRepository;
 
     public async Task<Unit> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
     {

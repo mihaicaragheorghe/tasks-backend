@@ -8,14 +8,10 @@ using Tasks.Domain;
 
 namespace Tasks.Application.TaskProjects.Commands;
 
-public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand, Project>
+public class UpdateProjectCommandHandler(IProjectRepository projectRepository) 
+    : IRequestHandler<UpdateProjectCommand, Project>
 {
-    private readonly IProjectRepository _projectRepository;
-
-    public UpdateProjectCommandHandler(IProjectRepository projectRepository)
-    {
-        _projectRepository = projectRepository;
-    }
+    private readonly IProjectRepository _projectRepository = projectRepository;
 
     public async Task<Project> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
     {
@@ -31,11 +27,6 @@ public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand,
 
         bool succcess = await _projectRepository.UpdateAsync(project, cancellationToken) > 0;
 
-        if (!succcess)
-        {
-            throw new ServiceException(Errors.Project.FailedToUpdate);
-        }
-
-        return project;
+        return !succcess ? throw new ServiceException(Errors.Project.FailedToUpdate) : project;
     }
 }
