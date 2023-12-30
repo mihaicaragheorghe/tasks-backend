@@ -1,6 +1,6 @@
 using FluentValidation;
 
-using Tasks.Application.Common.Errors;
+using Tasks.Application.Common.ErrorHandling;
 
 namespace Tasks.Application.Comments.Commands;
 

@@ -1,6 +1,6 @@
 using Tasks.Application.Core;
 
-namespace Tasks.Application.Common.Errors;
+namespace Tasks.Application.Common.ErrorHandling;
 
 public static partial class Errors
 {
@@ -13,6 +13,10 @@ public static partial class Errors
         public static Error FailedToUpdate => Error.Failure(
             code: "Subtask.FailedToUpdate",
             description: "Failed to update subtask."
+        );
+        public static Error FailedToDelete => Error.Failure(
+            code: "Subtask.FailedToDelete",
+            description: "Failed to delete subtask."
         );
         public static Error NotFound => Error.NotFound(
             code: "Subtask.NotFound",

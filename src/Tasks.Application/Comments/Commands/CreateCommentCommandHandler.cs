@@ -1,6 +1,6 @@
 using MediatR;
 
-using Tasks.Application.Common.Errors;
+using Tasks.Application.Common.ErrorHandling;
 using Tasks.Application.Common.Repository;
 using Tasks.Application.Core;
 using Tasks.Domain;
