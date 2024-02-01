@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Tasks.Api.Models;
 using Tasks.Api.Services;
-using Tasks.Domain;
+using Domain;
 using Tasks.Infrastructure.Persistence;
+
+namespace Tasks.Api.Extensions;
 
 public static class DependencyInjection
 {
@@ -12,10 +14,8 @@ public static class DependencyInjection
     {
         services.AddControllers();
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new() { Title = "Tasks.Api", Version = "v1" });
-        });
+        services.AddSwaggerGen(c => 
+            c.SwaggerDoc("v1", new() { Title = "Tasks.Api", Version = "v1" }));
 
         return services;
     }
@@ -38,16 +38,13 @@ public static class DependencyInjection
             throw new Exception("Jwt secret key is missing from appsettings.json");
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(opt => 
+            .AddJwtBearer(opt => opt.TokenValidationParameters = new()
             {
-                opt.TokenValidationParameters = new()
-                {
-                    ValidateIssuerSigningKey = true,
-                    ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.AccessTokenSecret)),
-                    ValidateAudience = false,
-                    ValidateIssuer = false
-                };
+                ValidateIssuerSigningKey = true,
+                ValidateLifetime = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.AccessTokenSecret)),
+                ValidateAudience = false,
+                ValidateIssuer = false
             });
 
         services.AddScoped<TokenGeneratorService>();

@@ -1,4 +1,4 @@
-using Tasks.Application.Comments.Commands;
+using Application.Comments.Commands;
 
 namespace Tasks.Api.Contracts;
 

@@ -1,4 +1,4 @@
-namespace Tasks.Application.Core;
+namespace Application.Core;
 
 public class ServiceException : Exception
 {

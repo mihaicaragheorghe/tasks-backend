@@ -1,46 +1,33 @@
 using MediatR;
 
-using Tasks.Application.Common.ErrorHandling;
-using Tasks.Application.Common.Repository;
+using Application.Common.ErrorHandling;
 
-using Tasks.Application.Core;
+using Application.Core;
 
-using Tasks.Domain;
+using Domain;
 
-namespace Tasks.Application.Tasks.Commands;
+namespace Application.Tasks.Commands;
 
-public class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand, TaskEntity>
+public class UpdateTaskCommandHandler(
+    ITaskRepository taskRepository,
+    IProjectRepository projectRepository,
+    ISectionRepository sectionRepository,
+    ITagRepository tagRepository) 
+    : IRequestHandler<UpdateTaskCommand, TaskEntity>
 {
-    private readonly ITaskRepository _taskRepository;
-    private readonly IProjectRepository _projectRepository;
-    private readonly ISectionRepository _sectionRepository;
-    private readonly ITagRepository _tagRepository;
-
-    public UpdateTaskCommandHandler(
-        ITaskRepository taskRepository,
-        IProjectRepository projectRepository,
-        ISectionRepository sectionRepository,
-        ITagRepository tagRepository)
-    {
-        _taskRepository = taskRepository;
-        _projectRepository = projectRepository;
-        _sectionRepository = sectionRepository;
-        _tagRepository = tagRepository;
-    }
-
     public async Task<TaskEntity> Handle(UpdateTaskCommand command, CancellationToken cancellationToken)
     {
-        var task = await _taskRepository.GetByIdAsync(command.Id, cancellationToken)
+        var task = await taskRepository.GetByIdAsync(command.Id, cancellationToken)
             ?? throw new ServiceException(Errors.Task.NotFound);
 
         if (command.ProjectId != task.ProjectId)
         {
-            if (await _projectRepository.GetByIdAsync(command.ProjectId, cancellationToken) is null)
+            if (await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken) is null)
                 throw new ServiceException(Errors.Project.NotFound);
         }
         if (command.SectionId is not null && command.SectionId != task.SectionId)
         {
-            var section = await _sectionRepository.GetByIdAsync((Guid)command.SectionId, cancellationToken)
+            var section = await sectionRepository.GetByIdAsync((Guid)command.SectionId, cancellationToken)
                 ?? throw new ServiceException(Errors.Section.NotFound);
 
             if (section.ProjectId != task.ProjectId)
@@ -49,7 +36,7 @@ public class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand, TaskE
             }
         }
 
-        var tags = await _tagRepository.GetTagsByIdsAsync(command.TagsIds, cancellationToken);
+        var tags = await tagRepository.GetTagsByIdsAsync(command.TagsIds, cancellationToken);
 
         task.Update(
             command.Title,
@@ -64,7 +51,7 @@ public class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand, TaskE
             command.AssignedToUserId,
             tags);
 
-        return await _taskRepository.UpdateAsync(task, cancellationToken) > 0
+        return await taskRepository.UpdateAsync(task, cancellationToken) > 0
             ? task
             : throw new ServiceException(Errors.Task.FailedToUpdate);
     }

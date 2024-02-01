@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Tasks.Application.Core;
+namespace Application.Core;
 
 public readonly record struct Error(
     string Code, 

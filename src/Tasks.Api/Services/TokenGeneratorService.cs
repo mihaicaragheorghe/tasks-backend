@@ -4,18 +4,13 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Tasks.Api.Models;
-using Tasks.Domain;
+using Domain;
 
 namespace Tasks.Api.Services;
 
-public class TokenGeneratorService
+public class TokenGeneratorService(IOptions<JwtOptions> options)
 {
-    private readonly JwtOptions _options;
-
-    public TokenGeneratorService(IOptions<JwtOptions> options)
-    {
-        _options = options.Value;
-    }
+    private readonly JwtOptions _options = options.Value;
 
     public string Generate(User user)
     {

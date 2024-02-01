@@ -1,28 +1,17 @@
 using MediatR;
+using Domain;
 
-using Tasks.Application.Common.Repository;
-using Tasks.Domain;
-
-namespace Tasks.Application.Comments.Queries
+namespace Application.Comments.Queries
 {
-    public class GetCommentsByTaskId : IRequest<IList<Comment>>
+    public class GetCommentsByTaskId(Guid taskId) : IRequest<IList<Comment>>
     {
-        public Guid TaskId { get; }
-
-        public GetCommentsByTaskId(Guid taskId)
-        {
-            TaskId = taskId;
-        }
+        public Guid TaskId { get; } = taskId;
     }
 
-    public class GetCommentsByTaskIdHandler : IRequestHandler<GetCommentsByTaskId, IList<Comment>>
+    public class GetCommentsByTaskIdHandler(ICommentRepository commentRepository) 
+        : IRequestHandler<GetCommentsByTaskId, IList<Comment>>
     {
-        private readonly ICommentRepository _commentRepository;
-
-        public GetCommentsByTaskIdHandler(ICommentRepository commentRepository)
-        {
-            _commentRepository = commentRepository;
-        }
+        private readonly ICommentRepository _commentRepository = commentRepository;
 
         public async Task<IList<Comment>> Handle(GetCommentsByTaskId request, CancellationToken cancellationToken)
         {

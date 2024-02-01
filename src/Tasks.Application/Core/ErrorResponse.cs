@@ -1,10 +1,10 @@
 using FluentValidation;
 
-namespace Tasks.Application.Core;
+namespace Application.Core;
 
 public class ErrorResponse
 {
-    private readonly List<ErrorDto> _errors = new();
+    private readonly List<ErrorDto> _errors = [];
 
     public IReadOnlyCollection<ErrorDto> Errors => _errors.AsReadOnly();
 
@@ -14,7 +14,7 @@ public class ErrorResponse
     }
 
     public ErrorResponse(Error error) => 
-        _errors = new List<ErrorDto> { new(error) };
+        _errors = [ new(error) ];
 
     public ErrorResponse(ServiceException exception) : this(exception.Error) { }
 

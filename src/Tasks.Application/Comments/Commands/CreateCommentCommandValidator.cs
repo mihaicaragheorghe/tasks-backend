@@ -1,8 +1,8 @@
 using FluentValidation;
 
-using Tasks.Application.Common.ErrorHandling;
+using Application.Common.ErrorHandling;
 
-namespace Tasks.Application.Comments.Commands;
+namespace Application.Comments.Commands;
 
 public class CreateCommentCommandValidator : AbstractValidator<CreateCommentCommand>
 {

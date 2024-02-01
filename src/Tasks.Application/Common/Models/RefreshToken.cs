@@ -1,4 +1,4 @@
-namespace Tasks.Application.Common.Models;
+namespace Application.Common.Models;
 
 public class RefreshToken
 {

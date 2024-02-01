@@ -1,5 +1,5 @@
-using Tasks.Application.Tasks.Commands;
-using Tasks.Domain;
+using Application.Tasks.Commands;
+using Domain;
 
 namespace Tasks.Api.Contracts;
 

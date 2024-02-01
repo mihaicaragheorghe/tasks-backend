@@ -1,4 +1,4 @@
-namespace Tasks.Application.Core;
+namespace Application.Core;
 
 public readonly record struct ErrorDto(
     string Code,

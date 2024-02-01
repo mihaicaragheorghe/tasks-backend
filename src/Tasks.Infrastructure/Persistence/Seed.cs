@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using Tasks.Domain;
+using Domain;
 
 namespace Tasks.Infrastructure.Persistence;
 

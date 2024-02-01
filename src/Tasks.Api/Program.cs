@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Tasks.Application.Extensions;
-using Tasks.Domain;
+using Application.Extensions;
+using Domain;
 using Tasks.Infrastructure.Extensions;
 using Tasks.Infrastructure.Persistence;
+using Tasks.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

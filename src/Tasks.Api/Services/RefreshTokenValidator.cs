@@ -6,14 +6,9 @@ using Tasks.Api.Models;
 
 namespace Tasks.Api.Services;
 
-public class RefreshTokenValidator
+public class RefreshTokenValidator(IOptions<JwtOptions> options)
 {
-    private readonly JwtOptions _options;
-
-    public RefreshTokenValidator(IOptions<JwtOptions> options)
-    {
-        _options = options.Value;
-    }
+    private readonly JwtOptions _options = options.Value;
 
     public bool Validate(string refreshToken)
     {

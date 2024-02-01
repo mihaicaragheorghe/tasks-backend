@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using Tasks.Api.Contracts;
-using Tasks.Application.Comments.Queries;
-using Tasks.Domain;
+using Application.Comments.Queries;
+using Domain;
 
 namespace Tasks.Api.Controllers;
 

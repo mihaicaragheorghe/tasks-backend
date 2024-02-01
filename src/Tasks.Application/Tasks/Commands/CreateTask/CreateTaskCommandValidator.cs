@@ -1,7 +1,7 @@
 using FluentValidation;
-using Tasks.Domain;
+using Domain;
 
-namespace Tasks.Application.Tasks.Commands;
+namespace Application.Tasks.Commands;
 
 public class CreateTaskCommandValidator : AbstractValidator<CreateTaskCommand>
 {

@@ -1,44 +1,37 @@
 using Microsoft.EntityFrameworkCore;
 
-using Tasks.Application.Common.Models;
-using Tasks.Application.Common.Repository;
+using Application.Common.Models;
+using Application.Common.Repository;
 
 namespace Tasks.Infrastructure.Persistence.Repository;
 
-public class RefreshTokenRepository : IRefreshTokenRepository
+public class RefreshTokenRepository(DataContext context) : IRefreshTokenRepository
 {
-    private readonly DataContext _context;
-
-    public RefreshTokenRepository(DataContext context)
-    {
-        _context = context;
-    }
-
     public async Task<int> AddAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default)
     {
-        await _context.RefreshTokens.AddAsync(refreshToken, cancellationToken);
-        return await _context.SaveChangesAsync(cancellationToken);
+        await context.RefreshTokens.AddAsync(refreshToken, cancellationToken);
+        return await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<RefreshToken?> GetAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        return await _context.RefreshTokens.FindAsync(new object[] { userId }, cancellationToken);
+        return await context.RefreshTokens.FindAsync([userId], cancellationToken);
     }
 
     public async Task<RefreshToken?> GetAsync(string token, CancellationToken cancellationToken = default)
     {
-        return await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token.Equals(token), cancellationToken);
+        return await context.RefreshTokens.FirstOrDefaultAsync(x => x.Token.Equals(token), cancellationToken);
     }
 
     public async Task<int> UpdateAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default)
     {
-        _context.RefreshTokens.Update(refreshToken);
-        return await _context.SaveChangesAsync(cancellationToken);
+        context.RefreshTokens.Update(refreshToken);
+        return await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<int> DeleteAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default)
     {
-        _context.RefreshTokens.Remove(refreshToken);
-        return await _context.SaveChangesAsync(cancellationToken);
+        context.RefreshTokens.Remove(refreshToken);
+        return await context.SaveChangesAsync(cancellationToken);
     }
 }

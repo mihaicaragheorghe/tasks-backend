@@ -3,7 +3,7 @@ using System.Net;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Tasks.Application.Core;
+using Application.Core;
 
 namespace Tasks.Api.Controllers;
 

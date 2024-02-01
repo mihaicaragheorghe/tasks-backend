@@ -1,7 +1,7 @@
 using MediatR;
-using Tasks.Domain;
+using Domain;
 
-namespace Tasks.Application.Tasks.Commands;
+namespace Application.Tasks.Commands;
 
 public record CreateTaskCommand(
     Guid ProjectId,

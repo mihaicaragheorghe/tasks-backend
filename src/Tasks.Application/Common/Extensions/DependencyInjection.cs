@@ -1,18 +1,10 @@
 using System.Reflection;
-
-
 using FluentValidation;
-
-
 using MediatR;
-
-
 using Microsoft.Extensions.DependencyInjection;
+using Application.Common.Behavior;
 
-
-using Tasks.Application.Common.Behavior;
-
-namespace Tasks.Application.Extensions;
+namespace Application.Extensions;
 
 public static class DependencyInjectionRegister
 {

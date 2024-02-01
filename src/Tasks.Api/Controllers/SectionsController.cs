@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 
 using Tasks.Api.Contracts;
-using Tasks.Application.Tasks.Queries;
-using Tasks.Application.TaskSections.Commands;
+using Application.Tasks.Queries;
+using Application.Sections.Commands;
 
 namespace Tasks.Api.Controllers;
 

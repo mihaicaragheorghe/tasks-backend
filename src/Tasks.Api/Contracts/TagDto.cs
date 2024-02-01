@@ -1,4 +1,4 @@
-using Tasks.Domain;
+using Domain;
 
 namespace Tasks.Api.Contracts;
 

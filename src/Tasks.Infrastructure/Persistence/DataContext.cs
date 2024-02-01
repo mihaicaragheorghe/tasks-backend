@@ -2,18 +2,14 @@ using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Tasks.Application.Common.Models;
-using Tasks.Domain;
+using Application.Common.Models;
+using Domain;
 
 namespace Tasks.Infrastructure.Persistence;
 
-public class DataContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+public class DataContext(DbContextOptions options) 
+    : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
-    public DataContext(DbContextOptions options) : base(options)
-    {
-
-    }
-
     public DbSet<Project> Projects { get; set; } = null!;
     public DbSet<Section> Sections { get; set; } = null!;
     public DbSet<TaskEntity> Tasks { get; set; } = null!;

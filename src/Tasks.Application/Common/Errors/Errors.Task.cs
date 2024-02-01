@@ -1,6 +1,6 @@
-using Tasks.Application.Core;
+using Application.Core;
 
-namespace Tasks.Application.Common.ErrorHandling;
+namespace Application.Common.ErrorHandling;
 
 public static partial class Errors
 {

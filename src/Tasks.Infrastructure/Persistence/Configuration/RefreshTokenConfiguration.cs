@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Tasks.Application.Common.Models;
-using Tasks.Domain;
+using Application.Common.Models;
+using Domain;
 
 namespace Tasks.Infrastructure.Persistence;
 
