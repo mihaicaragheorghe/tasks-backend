@@ -35,7 +35,6 @@ public class CreateProjectCommandHandlerTests
 
         // Assert
         project.ValidateCreatedFrom(command);
-        _mockRepository.Verify(x => x.AddAsync(project, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]

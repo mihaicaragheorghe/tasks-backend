@@ -10,6 +10,7 @@ public class CreateTaskCommandHandler(ITaskRepository taskRepository, ITagReposi
 {
     public async Task<TaskEntity> Handle(CreateTaskCommand command, CancellationToken cancellationToken)
     {
+        // todo - validate user ids, project id, section id, tags ids
         var tags = await tagRepository.GetTagsByIdsAsync(command.TagsIds, cancellationToken);
 
         var task = TaskEntity.Create(

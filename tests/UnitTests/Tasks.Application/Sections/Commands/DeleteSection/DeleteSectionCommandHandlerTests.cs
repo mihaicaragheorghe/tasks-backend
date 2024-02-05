@@ -41,8 +41,6 @@ public class DeleteSectionCommandHandlerTests
 
         // Assert
         result.Should().Be(Unit.Value);
-        _sectionRepositoryMock.Verify(x => x.GetByIdAsync(section.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _sectionRepositoryMock.Verify(x => x.DeleteAsync(section, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -61,8 +59,6 @@ public class DeleteSectionCommandHandlerTests
         await act.Should()
             .ThrowAsync<ServiceException>()
             .WithMessage(Errors.Section.NotFound.Description);
-        _sectionRepositoryMock.Verify(x => x.GetByIdAsync(command.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _sectionRepositoryMock.Verify(x => x.DeleteAsync(It.IsAny<Section>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

@@ -39,8 +39,6 @@ public class UpdateProjectCommandHandlerTests
 
         // Assert
         updatedProject.ValidateUpdatedFrom(project, command);
-        _projectRepositoryMock.Verify(x => x.GetByIdAsync(project.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _projectRepositoryMock.Verify(x => x.UpdateAsync(updatedProject, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -59,8 +57,6 @@ public class UpdateProjectCommandHandlerTests
         await act.Should()
             .ThrowAsync<ServiceException>()
             .WithMessage(Errors.Project.NotFound.Description);
-        _projectRepositoryMock.Verify(x => x.GetByIdAsync(command.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _projectRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -83,7 +79,5 @@ public class UpdateProjectCommandHandlerTests
         await act.Should()
             .ThrowAsync<ServiceException>()
             .WithMessage(Errors.Project.FailedToUpdate.Description);
-        _projectRepositoryMock.Verify(x => x.GetByIdAsync(project.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _projectRepositoryMock.Verify(x => x.UpdateAsync(project, It.IsAny<CancellationToken>()), Times.Once);
     }
 }

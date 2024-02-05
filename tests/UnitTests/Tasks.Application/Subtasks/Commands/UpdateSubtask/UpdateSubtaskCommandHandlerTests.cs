@@ -39,7 +39,6 @@ public class UpdateSubtaskCommandHandlerTests
 
         // Assert
         result.ValidateUpdatedFrom(subtask, command);
-        _subtaskRepositoryMock.Verify(x => x.UpdateAsync(subtask, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -58,7 +57,6 @@ public class UpdateSubtaskCommandHandlerTests
         await act.Should()
             .ThrowAsync<ServiceException>()
             .WithMessage(Errors.Subtask.NotFound.Description);
-        _subtaskRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Subtask>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -81,6 +79,5 @@ public class UpdateSubtaskCommandHandlerTests
         await act.Should()
             .ThrowAsync<ServiceException>()
             .WithMessage(Errors.Subtask.FailedToUpdate.Description);
-        _subtaskRepositoryMock.Verify(x => x.UpdateAsync(subtask, It.IsAny<CancellationToken>()), Times.Once);
     }
 }

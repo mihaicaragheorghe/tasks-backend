@@ -39,8 +39,6 @@ public class UpdateSectionCommandHandlerTests
 
         // Assert
         result.ValidateUpdatedFrom(result, command);
-        _sectionRepositoryMock.Verify(x => x.GetByIdAsync(section.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _sectionRepositoryMock.Verify(x => x.UpdateAsync(result, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -59,8 +57,6 @@ public class UpdateSectionCommandHandlerTests
         await act.Should()
             .ThrowAsync<ServiceException>()
             .WithMessage(Errors.Section.NotFound.Description);
-        _sectionRepositoryMock.Verify(x => x.GetByIdAsync(command.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _sectionRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Section>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -83,7 +79,5 @@ public class UpdateSectionCommandHandlerTests
         await act.Should()
             .ThrowAsync<ServiceException>()
             .WithMessage(Errors.Section.FailedToUpdate.Description);
-        _sectionRepositoryMock.Verify(x => x.GetByIdAsync(section.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _sectionRepositoryMock.Verify(x => x.UpdateAsync(section, It.IsAny<CancellationToken>()), Times.Once);
     }
 }

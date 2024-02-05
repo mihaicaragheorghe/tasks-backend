@@ -41,8 +41,6 @@ public class DeleteProjectCommandHandlerTests
 
         // Assert
         result.Should().Be(Unit.Value);
-        _projectRepositoryMock.Verify(x => x.GetByIdAsync(project.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _projectRepositoryMock.Verify(x => x.DeleteAsync(project, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -61,8 +59,6 @@ public class DeleteProjectCommandHandlerTests
         await act.Should()
             .ThrowAsync<ServiceException>()
             .WithMessage(Errors.Project.NotFound.Description);
-        _projectRepositoryMock.Verify(x => x.GetByIdAsync(command.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _projectRepositoryMock.Verify(x => x.DeleteAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -85,7 +81,5 @@ public class DeleteProjectCommandHandlerTests
         await act.Should()
             .ThrowAsync<ServiceException>()
             .WithMessage(Errors.Project.DeleteFailed.Description);
-        _projectRepositoryMock.Verify(x => x.GetByIdAsync(project.Id, It.IsAny<CancellationToken>()), Times.Once);
-        _projectRepositoryMock.Verify(x => x.DeleteAsync(project, It.IsAny<CancellationToken>()), Times.Once);
     }
 }

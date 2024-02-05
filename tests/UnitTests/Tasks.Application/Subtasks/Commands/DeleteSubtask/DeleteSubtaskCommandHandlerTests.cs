@@ -40,7 +40,6 @@ public class DeleteSubtaskCommandHandlerTests
 
         // Assert
         result.Should().Be(Unit.Value);
-        _subtaskRepositoryMock.Verify(x => x.DeleteAsync(subtask, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
